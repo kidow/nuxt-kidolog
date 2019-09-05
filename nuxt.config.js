@@ -13,12 +13,72 @@ module.exports = {
   head: {
     title: TITLE,
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1' },
+      { name: 'robots', content: 'index, follow' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0'
+      },
       {
         hid: 'description',
         name: 'description',
         content: DESCRIPTION
+      },
+      { hid: 'canonical', rel: 'canonical', href: PUBLIC_LINK },
+      {
+        'http-equiv': 'cache-control',
+        content: 'no-cache, no-store, must-revalidate'
+      },
+      { 'http-equiv': 'pragma', content: 'no-cache' },
+      { name: 'apple-mobile-web-app-capable', content: 'yes' },
+      { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
+      { name: 'apple-mobile-web-app-title', content: 'mostpeople' },
+      { hid: 'keywords', name: 'keywords', content: 'social' },
+      { hid: 'image', name: 'image', content: IMAGE },
+      {
+        name: 'msapplication-TileColor',
+        content: COLOR
+      },
+      {
+        name: 'theme-color',
+        content: COLOR
+      },
+
+      // Open Graph
+      { hid: 'og-site_name', property: 'og:site_name', content: TITLE },
+      { hid: 'og-title', property: 'og:title', content: TITLE },
+      {
+        hid: 'og-description',
+        property: 'og:description',
+        content: DESCRIPTION
+      },
+      { hid: 'og-image', property: 'og:image', content: IMAGE },
+      { hid: 'og-type', property: 'og:type', content: 'article' },
+      { hid: 'og-locale', property: 'og:locale', content: 'en_US' },
+      { hid: 'og-image-width', property: 'og:image:width', content: '1200' },
+      { hid: 'og-image-height', property: 'og:image:height', content: '630' },
+      {
+        hid: 'og-image-alt',
+        property: 'og:image:alt',
+        content: '###Kidolog###'
+      },
+      { hid: 'og-url', property: 'og:url', content: PUBLIC_LINK },
+
+      // Twiiter
+      { hid: 'twitter-site', property: 'twitter:site', content: '@mostpeople' },
+      { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+      { hid: 'twitter-title', property: 'twitter:title', content: TITLE },
+      {
+        hid: 'twitter-description',
+        property: 'twitter:description',
+        content: DESCRIPTION
+      },
+      { hid: 'twitter-image', property: 'twitter:image', content: IMAGE },
+      {
+        hid: 'twitter-domain',
+        property: 'twitter:domain',
+        content: PUBLIC_LINK
       }
     ],
     link: [
@@ -27,6 +87,13 @@ module.exports = {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+        integrity:
+          'sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf',
+        crossorigin: 'anonymous'
       }
     ]
   },
@@ -37,7 +104,14 @@ module.exports = {
 
   plugins: ['@/plugins/element-ui'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa'],
+  modules: [
+    '@nuxtjs/font-awesome',
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa',
+    'nuxt-device-detect',
+    ['@nuxtjs/moment', { locales: ['ko'], defaultLocales: 'ko' }],
+    ['@nuxtjs/sitemap']
+  ],
 
   axios: {
     baseURL: BASE_URL,
