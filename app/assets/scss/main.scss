@@ -1,0 +1,66 @@
+@import './color';
+@import './media';
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: $oc-gray-0;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+a {
+  color: $oc-gray-6;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+    color: $oc-gray-8;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+input,
+textarea,
+i,
+button {
+  outline: none;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+textarea {
+  border-width: 1px;
+  resize: none;
+}
+
+.block {
+  display: block;
+}
+
+.none {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.disabled {
+  opacity: 0.8;
+}
