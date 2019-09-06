@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Element from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/ko'
 import 'element-ui/lib/theme-chalk/index.css'
+import '../assets/scss/element-ui.scss'
 
 export default () => {
   Vue.use(Element, { locale }),
