@@ -20,6 +20,7 @@
     "element-ui": "^2.4.11",
     "express": "^4.16.4",
     "include-media": "^1.4.9",
+    "lodash.throttle": "^4.1.1",
     "nuxt": "^2.0.0",
     "nuxt-device-detect": "^1.1.5",
     "open-color": "^1.7.0"
