@@ -1,6 +1,5 @@
 const router = require('express').Router()
 
-router.use(require('./find'))
-router.use(require('./destroy'))
+router.use(require('./create'))
 
 module.exports = router

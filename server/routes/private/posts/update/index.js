@@ -1,6 +1,5 @@
 const router = require('express').Router()
 
-router.use(require('./find'))
-router.use(require('./destroy'))
+router.put('/:postId', require('./_postId'))
 
 module.exports = router

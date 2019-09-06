@@ -1,16 +1,16 @@
 const { queryPromise } = require('@utils')
 
-const create = injection =>
+const destroy = injection =>
   queryPromise(
     `
-      INSERT INTO
-        users
-      SET
-        ?
-    `,
+  DELETE FROM
+    posts
+  WHERE
+    id = ?
+`,
     injection
   )
 
 module.exports = {
-  create
+  destroy
 }

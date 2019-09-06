@@ -1,7 +1,7 @@
-const private = require('./private')
+const protected = require('./protected')
 const { ...public } = require('./public')
 
 module.exports = {
-  private,
+  protected,
   ...public
 }

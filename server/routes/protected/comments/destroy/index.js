@@ -1,6 +1,5 @@
 const router = require('express').Router()
 
-router.use(require('./find'))
-router.use(require('./destroy'))
+router.delete('/:commentId', require('./_commentId'))
 
 module.exports = router

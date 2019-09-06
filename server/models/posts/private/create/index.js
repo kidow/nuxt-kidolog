@@ -3,10 +3,10 @@ const { queryPromise } = require('@utils')
 const create = injection =>
   queryPromise(
     `
-      INSERT INTO
-        users
-      SET
-        ?
+    INSERT INTO
+      posts
+    SET
+      ?
     `,
     injection
   )
