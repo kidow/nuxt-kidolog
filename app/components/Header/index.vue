@@ -56,6 +56,10 @@ export default {
 
 header {
   height: 4rem;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100%;
   padding: 1rem 4rem calc(1rem + 4px);
   align-items: center;
   justify-content: space-between;

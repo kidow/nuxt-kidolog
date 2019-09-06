@@ -3,7 +3,7 @@
     <vue-header />
     <el-row style="padding: 3rem 0">
       <el-col :lg="3" :sm="2" :xs="1" style="min-height: 1px" />
-      <el-col :lg="18" :sm="20" :xs="22">
+      <el-col :lg="18" :sm="20" :xs="22" class="main-column">
         <nuxt />
       </el-col>
       <el-col :lg="3" :sm="2" :xs="1" />
@@ -26,3 +26,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.main-column {
+  padding-top: calc(4rem + 4px);
+}
+</style>

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <vue-logo style="padding-left: 1rem; font-size: 2rem" />
+    <vue-logo
+      v-if="!$device.isMobile"
+      style="padding-left: 1rem; font-size: 2rem; margin-bottom: 5rem"
+    />
     <div class="content__container">
       <div class="content-title">Redux-saga에 앞서 Generator 이해하기</div>
       <div class="content-buttons" v-if="isLoggedIn">
@@ -8,7 +11,41 @@
         <el-button>삭제</el-button>
       </div>
       <div class="content-date">2019년 9월 5일 오후 9:19</div>
-      <div class="content-body">contentbody</div>
+      <div class="content-body">
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+        <h1>content</h1>
+      </div>
       <div class="content-tags">
         <vue-tag
           v-for="(tag, index) in tags"
@@ -56,7 +93,6 @@ export default {
 }
 
 .content__container {
-  margin-top: 5rem;
   .content-title {
     font-size: 2.5rem;
     font-weight: bold;

@@ -37,7 +37,6 @@ export default {
   }
   .card__body {
     padding: 1rem;
-    z-index: 2;
     .title {
       font-size: 1.4rem;
       font-weight: bold;
