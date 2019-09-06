@@ -14,7 +14,8 @@
 export default {
   data: _ => ({
     search: ''
-  })
+  }),
+  name: 'VueSearch'
 }
 </script>
 

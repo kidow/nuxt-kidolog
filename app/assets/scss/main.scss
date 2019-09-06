@@ -18,12 +18,8 @@ body {
 }
 
 a {
-  color: $oc-gray-6;
+  color: $oc-gray-9;
   text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-    color: $oc-gray-8;
-  }
 }
 
 ul {
