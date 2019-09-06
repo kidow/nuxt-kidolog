@@ -14,14 +14,7 @@
         <span>Kidolog</span>
       </el-drawer>
     </div>
-    <div class="icons" v-else-if="!isLoggedIn">
-      <i class="fab fa-facebook" @click="OAuthLogin('/auth/facebook')"></i>
-      <i class="fab fa-google" @click="OAuthLogin('/auth/google')"></i>
-      <i class="fab fa-twitter" @click="OAuthLogin('/auth/twitter')"></i>
-      <i class="fab fa-github" @click="OAuthLogin('/auth/github')"></i>
-      <img src="~/assets/icons/kakao.png" alt="kakao" @click="OAuthLogin('/auth/kakao')" />
-      <img src="~/assets/icons/naver.png" alt="naver" @click="OAuthLogin('/auth/naver')" />
-    </div>
+    <vue-icons v-else-if="!isLoggedIn" />
     <div class="icons" v-else>
       <i class="fas fa-code" @click="$router.push('/editor')"></i>
     </div>
@@ -30,11 +23,13 @@
 
 <script>
 import VueLogo from '~/components/Logo'
+import VueIcons from '~/components/Icons'
 import { mapGetters } from 'vuex'
 export default {
   name: 'VueHeader',
   components: {
-    VueLogo
+    VueLogo,
+    VueIcons
   },
   data: _ => ({
     drawer: false
@@ -87,30 +82,10 @@ header {
     font-size: 1.5rem;
     display: flex;
     align-items: center;
-    i {
-      cursor: pointer;
-      margin-left: 6px;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
-    .fa-facebook {
-      color: #3b5998;
-    }
-    .fa-google {
-      color: #db4437;
-    }
-    .fa-twitter {
-      color: #00acee;
-    }
     .fa-code {
       color: $brand-color;
-    }
-    img {
-      width: 24px;
-      height: 24px;
-      margin-left: 6px;
       cursor: pointer;
+      margin-left: 6px;
       &:hover {
         opacity: 0.8;
       }

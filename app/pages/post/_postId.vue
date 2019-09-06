@@ -13,7 +13,11 @@
         <vue-tag v-for="(tag, index) in post.tags" :key="index" :tag="tag" />
       </div>
       <div class="comments">
-        <h3 class="comment__count">{{ comments.length }}개의 댓글</h3>
+        <h3 class="comment__count flex">
+          {{ comments.length }}개의 댓글
+          <vue-icons v-if="!isLoggedIn" />
+        </h3>
+
         <el-input type="textarea" v-model="comment" :rows="3" :placeholder="placeholder" />
         <div class="flex" style="justify-content: flex-end; margin: 1rem 0">
           <el-button
@@ -42,13 +46,15 @@
 import VueLogo from '~/components/Logo'
 import VueTag from '~/components/Tag'
 import VueComment from '~/components/Comment'
+import VueIcons from '~/components/Icons'
 import { mapGetters } from 'vuex'
 export default {
   layout: 'post',
   components: {
     VueLogo,
     VueTag,
-    VueComment
+    VueComment,
+    VueIcons
   },
   computed: {
     ...mapGetters({
