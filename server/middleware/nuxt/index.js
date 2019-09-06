@@ -1,6 +1,7 @@
 const { Nuxt, Builder } = require('nuxt')
 const config = require('../../../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
+const passport = require('passport')
 
 module.exports = async app => {
   const nuxt = new Nuxt(config)
@@ -13,6 +14,13 @@ module.exports = async app => {
       const builder = new Builder(nuxt)
       await builder.build()
     }
+
+    app.use(require('@lib/session'))
+    app.use(passport.initialize())
+    app.use(passport.session())
+    app.use(require('@middle/jwt'))
+    app.use('/', require('../../routes'))
+    app.use(require('@middle/error'))
 
     app.use(nuxt.render)
     app.listen(port, host)
