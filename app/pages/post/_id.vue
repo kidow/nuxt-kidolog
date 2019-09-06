@@ -44,11 +44,20 @@
         <h1>content</h1>
       </div>
       <div class="content-tags">
-        <vue-tag
-          v-for="(tag, index) in tags"
-          :key="index"
-          @click="$router.push(`/tag/${tag}`)"
-        >{{ tag }}</vue-tag>
+        <vue-tag v-for="(tag, index) in tags" :key="index" :tag="tag" />
+      </div>
+      <div class="comments">
+        <h3 class="comment__count">{{ comments.length }}개의 댓글</h3>
+        <el-input type="textarea" v-model="comment" :rows="3" :placeholder="placeholder" />
+        <div class="flex" style="justify-content: flex-end; margin: 1rem 0">
+          <el-button
+            size="small"
+            v-loading="loading.comment"
+            type="primary"
+            v-if="!isLoggedIn"
+          >댓글 등록</el-button>
+        </div>
+        <vue-comment v-for="comment in comments" :key="comment.id" :comment="comment" />
       </div>
     </div>
   </div>
@@ -57,23 +66,52 @@
 <script>
 import VueLogo from '~/components/Logo'
 import VueTag from '~/components/Tag'
+import VueComment from '~/components/Comment'
 import { mapGetters } from 'vuex'
 export default {
   layout: 'post',
   components: {
     VueLogo,
-    VueTag
+    VueTag,
+    VueComment
   },
   computed: {
     ...mapGetters({
       isLoggedIn: 'auth/IS_LOGGED_IN'
-    })
+    }),
+    placeholder() {
+      if (this.isLoggedIn) return '댓글을 달아보세요.'
+      else return '로그인이 필요합니다.'
+    }
   },
   data: _ => ({
     title: '',
     content: '',
     createdAt: '',
-    tags: ['redux-saga', 'generator']
+    tags: ['redux-saga', 'generator'],
+    comment: '',
+    loading: {
+      comment: false,
+      post: false,
+      edit: false
+    },
+    comments: [
+      {
+        id: '1',
+        displayName: 'Kidow',
+        thumbnail: 'https://picsum.photos/200',
+        createdAt: Date.now(),
+        content:
+          '내가 달건이 생활을 17살에 시작했다. 내가 달건이 생활을 17살에 시작했다. 내가 달건이 생활을 17살에 시작했다. 내가 달건이 생활을 17살에 시작했다'
+      },
+      {
+        id: '2',
+        displayName: 'Kidow',
+        thumbnail: 'https://picsum.photos/200',
+        createdAt: Date.now(),
+        content: '내가 달건이 생활을 17살에 시작했다'
+      }
+    ]
   })
 }
 </script>
@@ -120,8 +158,15 @@ export default {
     }
   }
   .content-tags {
-    padding-bottom: 15rem;
+    padding-bottom: 3rem;
     @include tablet;
+  }
+  .comments {
+    padding-bottom: 15rem;
+    .submit {
+      float: right;
+      margin-top: 1rem;
+    }
   }
 }
 </style>

@@ -1,8 +1,18 @@
 <template>
-  <el-tag type="info">
-    <slot />
-  </el-tag>
+  <el-tag type="info" @click="$router.push(`/tag/${tag}`)">{{ tag }}</el-tag>
 </template>
+
+<script>
+export default {
+  name: 'VueTag',
+  props: {
+    tag: {
+      type: String,
+      default: ''
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import '~/assets/scss/color.scss';

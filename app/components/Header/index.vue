@@ -41,9 +41,9 @@ export default {
   }),
   methods: {
     OAuthLogin(url) {
-      const { redirect } = this.$route.query
+      const { path } = this.$route
       window.open(
-        url + redirect,
+        url + path,
         'login',
         'menubar=1, resizable=1, width=500, height=600'
       )
