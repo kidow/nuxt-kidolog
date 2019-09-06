@@ -14,4 +14,6 @@ module.exports = passport => {
   require('./twitter')(passport)
   require('./github')(passport)
   require('./google')(passport)
+  require('./kakao')(passport)
+  require('./naver')(passport)
 }

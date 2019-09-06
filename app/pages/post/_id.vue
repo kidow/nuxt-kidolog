@@ -1,10 +1,7 @@
 <template>
   <div>
-    <vue-logo
-      v-if="!$device.isMobile"
-      style="padding-left: 1rem; font-size: 2rem; margin-bottom: 5rem"
-    />
-    <div class="content__container">
+    <vue-logo v-if="!$device.isMobile" style="padding-left: 1rem; font-size: 2rem" />
+    <div class="content__container" :class="{ mobile: !$device.isMobile}">
       <div class="content-title">Redux-saga에 앞서 Generator 이해하기</div>
       <div class="content-buttons" v-if="isLoggedIn">
         <el-button>수정</el-button>
@@ -93,6 +90,9 @@ export default {
 }
 
 .content__container {
+  &.mobile {
+    padding-top: 5rem;
+  }
   .content-title {
     font-size: 2.5rem;
     font-weight: bold;

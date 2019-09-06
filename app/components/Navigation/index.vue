@@ -1,7 +1,12 @@
 <template>
   <div class="navigation">
-    <i class="fas fa-home" :class="{ matched: $route.path === '/' }"></i>
-    <i class="fas fa-tags" :class="{ matched: $route.path.indexOf('/tag') > -1 }"></i>
+    <i class="fas fa-home" @click="$router.push('/')" :class="{ matched: $route.path === '/' }"></i>
+    <i class="fas fa-search"></i>
+    <i
+      class="fas fa-tags"
+      @click="$router.push('/tag')"
+      :class="{ matched: $route.path.indexOf('/tag') > -1 }"
+    ></i>
   </div>
 </template>
 
@@ -22,7 +27,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 4rem;
+  height: 3rem;
   border-top: 1px solid $oc-gray-3;
   i {
     font-size: 25px;

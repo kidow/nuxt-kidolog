@@ -19,6 +19,8 @@
       <i class="fab fa-google" @click="OAuthLogin('/auth/google')"></i>
       <i class="fab fa-twitter" @click="OAuthLogin('/auth/twitter')"></i>
       <i class="fab fa-github" @click="OAuthLogin('/auth/github')"></i>
+      <img src="~/assets/icons/kakao.png" alt="kakao" @click="OAuthLogin('/auth/kakao')" />
+      <img src="~/assets/icons/naver.png" alt="naver" @click="OAuthLogin('/auth/naver')" />
     </div>
     <div class="icons" v-else>
       <i class="fas fa-code" @click="$router.push('/editor')"></i>
@@ -39,7 +41,12 @@ export default {
   }),
   methods: {
     OAuthLogin(url) {
-      window.open(url, 'login', 'menubar=1, resizable=1, width=500, height=600')
+      const { redirect } = this.$route.query
+      window.open(
+        url + redirect,
+        'login',
+        'menubar=1, resizable=1, width=500, height=600'
+      )
     }
   },
   computed: {
@@ -72,11 +79,17 @@ header {
     0 1px 8px 0 rgba(0, 0, 0, 0.12);
   .mobile {
     font-size: 1.5rem;
+    i {
+      color: $oc-gray-7;
+    }
   }
   .icons {
     font-size: 1.5rem;
+    display: flex;
+    align-items: center;
     i {
       cursor: pointer;
+      margin-left: 6px;
       &:hover {
         opacity: 0.8;
       }
@@ -92,6 +105,15 @@ header {
     }
     .fa-code {
       color: $brand-color;
+    }
+    img {
+      width: 24px;
+      height: 24px;
+      margin-left: 6px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
   @include media('<phone') {

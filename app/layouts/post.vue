@@ -1,14 +1,14 @@
 <template>
   <div>
     <vue-header v-if="$device.isMobile" />
-    <el-row style="padding: 2rem 0">
+    <el-row class="post-container" :class="{ mobile: $device.isMobile }">
       <el-col :lg="5" :sm="3" :xs="1" style="min-height: 1px" />
       <el-col :lg="14" :sm="18" :xs="22">
         <nuxt />
-        <vue-navigation v-if="$device.isMobile" />
       </el-col>
       <el-col :lg="5" :sm="3" :xs="1" />
     </el-row>
+    <vue-navigation v-if="$device.isMobile" />
   </div>
 </template>
 
@@ -22,3 +22,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.post-container {
+  padding: 2rem 0;
+  &.mobile {
+    padding: 6rem 0 2rem;
+  }
+}
+</style>
