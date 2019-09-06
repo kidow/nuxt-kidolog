@@ -56,6 +56,8 @@ header {
   border-image: linear-gradient(to right, #fcc419, #fd7e14);
   border-image-width: 0 0 4px;
   border-image-slice: 1;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+    0 1px 8px 0 rgba(0, 0, 0, 0.12);
   .mobile {
     font-size: 1.5rem;
   }
