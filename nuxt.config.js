@@ -133,7 +133,21 @@ module.exports = {
       return config
     }
   },
-
+  manifest: {
+    name: TITLE,
+    short_name: TITLE,
+    icons: [
+      {
+        src: '/icon.png',
+        sizes: '512x512',
+        type: 'image/png'
+      }
+    ],
+    theme_color: COLOR,
+    background_color: COLOR,
+    display: 'standalone',
+    start_url: '/?utm_source=homescreen'
+  },
   build: {
     transpile: [/^element-ui/],
 

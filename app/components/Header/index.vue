@@ -39,7 +39,7 @@ export default {
   }),
   methods: {
     OAuthLogin(url) {
-      window.open(url, 'login', 'menubar=1, resizable=1, width=400, height=600')
+      window.open(url, 'login', 'menubar=1, resizable=1, width=500, height=600')
     }
   },
   computed: {

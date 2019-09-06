@@ -1,5 +1,5 @@
 const { encodeToken, decodeToken } = require('@lib/jwt')
-const options = require('@lib/cookie')
+const cookieOptions = require('@utils/cookie')
 
 module.exports = async (req, res, next) => {
   const token = req.cookies['access_token']
@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
     const decoded = await decodeToken(token)
     if (Date.now() / 1000 - decoded.iat > 60 * 60 * 24) {
       const refreshToken = await encodeToken(decoded, 'user')
-      res.cookie('access_token', refreshToken, options(1))
+      res.cookie('access_token', refreshToken, cookieOptions(1))
     }
     req.user = decoded
   } catch (e) {
