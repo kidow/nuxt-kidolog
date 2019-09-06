@@ -8,7 +8,8 @@
       </el-col>
       <el-col :lg="3" :sm="2" :xs="1" />
     </el-row>
-    <vue-footer />
+    <vue-navigation v-if="$device.isMobile" />
+    <vue-footer v-else />
     <el-backtop />
   </div>
 </template>
@@ -16,10 +17,12 @@
 <script>
 import VueHeader from '~/components/Header'
 import VueFooter from '~/components/Footer'
+import VueNavigation from '~/components/Navigation'
 export default {
   components: {
     VueHeader,
-    VueFooter
+    VueFooter,
+    VueNavigation
   }
 }
 </script>

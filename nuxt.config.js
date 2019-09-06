@@ -3,7 +3,7 @@ const TITLE = 'Kidolog'
 const DESCRIPTION = "Kidow's Blog"
 const IMAGE = ''
 const PUBLIC_LINK = 'https://www.kidolog.com'
-const COLOR = '#fd7e14'
+const COLOR = '#e8590c'
 const BASE_URL =
   NODE_ENV === 'production' ? PUBLIC_LINK : 'http://localhost:3000'
 
@@ -86,7 +86,7 @@ module.exports = {
       {
         rel: 'stylesheet',
         href:
-          'https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean'
+          'https://fonts.googleapis.com/css?family=Noto+Serif+KR:500,700&subset=korean'
       },
       {
         rel: 'stylesheet',
@@ -94,6 +94,11 @@ module.exports = {
         integrity:
           'sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf',
         crossorigin: 'anonymous'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.31.0/d2coding.css'
       }
     ]
   },

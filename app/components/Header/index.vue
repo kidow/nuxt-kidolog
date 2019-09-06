@@ -14,11 +14,13 @@
         <span>Kidolog</span>
       </el-drawer>
     </div>
-    <div class="icons" v-else>
+    <div class="icons" v-else-if="!isLoggedIn">
       <i class="fab fa-facebook" @click="OAuthLogin('/auth/facebook')"></i>
       <i class="fab fa-google" @click="OAuthLogin('/auth/google')"></i>
       <i class="fab fa-twitter" @click="OAuthLogin('/auth/twitter')"></i>
       <i class="fab fa-github" @click="OAuthLogin('/auth/github')"></i>
+    </div>
+    <div class="icons" v-else>
       <i class="fas fa-code" @click="$router.push('/editor')"></i>
     </div>
   </header>
@@ -26,6 +28,7 @@
 
 <script>
 import VueLogo from '~/components/Logo'
+import { mapGetters } from 'vuex'
 export default {
   name: 'VueHeader',
   components: {
@@ -38,6 +41,11 @@ export default {
     OAuthLogin(url) {
       window.open(url, 'login', 'menubar=1, resizable=1, width=400, height=600')
     }
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN'
+    })
   }
 }
 </script>
