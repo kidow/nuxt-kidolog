@@ -8,7 +8,9 @@
         <el-button @click="removePost">삭제</el-button>
       </div>
       <div class="content-date">{{ post.createdAt }}</div>
-      <div class="content-body">{{ post.content }}</div>
+      <div class="content-body">
+        <vue-marked :markdown="post.content" />
+      </div>
       <div class="content-tags">
         <vue-tag v-for="(tag, index) in post.tags" :key="index" :tag="tag" />
       </div>
@@ -47,6 +49,7 @@ import VueLogo from '~/components/Logo'
 import VueTag from '~/components/Tag'
 import VueComment from '~/components/Comment'
 import VueIcons from '~/components/Icons'
+import VueMarked from '~/components/Marked'
 import { mapGetters } from 'vuex'
 export default {
   layout: 'post',
@@ -54,7 +57,8 @@ export default {
     VueLogo,
     VueTag,
     VueComment,
-    VueIcons
+    VueIcons,
+    VueMarked
   },
   computed: {
     ...mapGetters({
@@ -69,7 +73,8 @@ export default {
     post: {
       id: '1',
       title: 'Redux-saga에 앞서 Generator 이해하기',
-      content: 'content',
+      content:
+        '개발밖에 할줄 모르는 저에게 고퀄리티의 디자인을 제공해주는 플랫폼이 참 필요했었는데, 이거 참 맘에 드는 서비스인 것 같습니다. ㅎㅎ 앞으로 블로그와 개인 프로젝트의 디자인은 이걸로 해결해 볼 생각입니다. 여러분도 써보면 좋겠군요.',
       createdAt: '2019년 9월 5일 오후 9:19',
       tags: ['redux-saga', 'generator']
     },

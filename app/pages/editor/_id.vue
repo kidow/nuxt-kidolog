@@ -2,26 +2,30 @@
   <div class="editor-template">
     <div class="editor__header flex">
       <div class="header__left flex">
-        <i class="el-icon-back"></i>
+        <i class="el-icon-back" @click="$router.back()"></i>
       </div>
       <div class="header__input">
         <input type="text" v-model="title" placeholder="제목을 입력해주세요." />
       </div>
       <div class="header__right flex">
-        <el-upload>
-          <el-button plain icon="el-icon-upload2">썸네일</el-button>
-        </el-upload>
+        <el-button plain icon="el-icon-upload2">썸네일</el-button>
         <div style="width: 0.5rem" />
-        <el-upload>
-          <el-button plain icon="el-icon-picture">업로드</el-button>
-        </el-upload>
+        <el-button plain icon="el-icon-picture">업로드</el-button>
         <div style="width: 0.5rem" />
         <el-button class="submit" type="primary" plain>작성하기</el-button>
       </div>
     </div>
     <div class="editor__content flex">
-      <div class="content__flex flex display" :style="{ flex: leftPercentage }">display</div>
-      <div class="content__flex flex none" :style="{ flex: 1 - leftPercentage}">none</div>
+      <div class="content__flex flex display" :style="{ flex: leftPercentage }">
+        <vue-markdown
+          @tagChange="tag => tags = tag"
+          :markdown="markdown"
+          @markdown="md => markdown = md"
+        />
+      </div>
+      <div class="content__flex flex none" :style="{ flex: 1 - leftPercentage}">
+        <vue-preview :title="title" :markdown="markdown" />
+      </div>
       <div
         class="content__separator"
         @mousedown="onSeparatorMouseDown"
@@ -32,11 +36,15 @@
 </template>
 
 <script>
+import VueMarkdown from '~/components/Markdown'
+import VuePreview from '~/components/Preview'
 export default {
   layout: 'editor',
   data: _ => ({
     title: '',
-    leftPercentage: 0.5
+    leftPercentage: 0.5,
+    markdown: '',
+    tags: ''
   }),
   methods: {
     onSeparatorMouseDown() {
@@ -50,6 +58,10 @@ export default {
       document.body.removeEventListener('mousemove', this.onMouseMove)
       window.removeEventListener('mouseup', this.onMouseUp)
     }
+  },
+  components: {
+    VueMarkdown,
+    VuePreview
   }
 }
 </script>
