@@ -9,6 +9,21 @@
       <el-col :lg="5" :sm="3" :xs="1" />
     </el-row>
     <vue-navigation v-if="$device.isMobile" />
+    <transition-group name="el-fade-in" v-if="share">
+      <el-backtop @click="shareFacebook" :bottom="280" :visibility-height="0" :key="1">
+        <i class="fab fa-facebook"></i>
+      </el-backtop>
+      <el-backtop @click="shareTwitter" :bottom="220" :visibility-height="0" :key="2">
+        <i class="fab fa-twitter"></i>
+      </el-backtop>
+      <el-backtop @click="copyLink" :bottom="160" :visibility-height="0" :key="3">
+        <i class="fas fa-link"></i>
+      </el-backtop>
+    </transition-group>
+    <el-backtop @click="share = !share" :bottom="100" :visibility-height="0">
+      <i class="el-icon-share"></i>
+    </el-backtop>
+    <el-backtop />
   </div>
 </template>
 
@@ -19,15 +34,51 @@ export default {
   components: {
     VueHeader,
     VueNavigation
-  }
+  },
+  methods: {
+    shareFacebook() {
+      const { BASE_URL } = process.env
+      const { path } = this.$route
+      const url = `http://www.facebook.com/sharer/sharer.php?u=${BASE_URL}${path}`
+      this.share = false
+      window.open(url, 'share', 'menubar=1, resizable=1, width=800, height=500')
+    },
+    shareTwitter() {
+      const { BASE_URL } = process.env
+      const { path } = this.$route
+      const url = `https://twitter.com/intent/tweet?text=TEXT&url=${BASE_URL}${path}`
+      this.share = false
+      window.open(url, 'share', 'menubar=1, resizable=1, width=800, height=500')
+    },
+    copyLink() {
+      this.$copyText(`${process.env.BASE_URL}${this.$route.path}`)
+      this.$message({ message: '성공적으로 복사되었습니다', type: 'success' })
+      this.share = false
+    }
+  },
+  data: _ => ({
+    share: false
+  })
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~/assets/scss/color.scss';
+
 .post-container {
   padding: 2rem 0;
   &.mobile {
     padding: 6rem 0 2rem;
   }
+}
+.el-icon-share,
+.fa-link {
+  color: $oc-gray-7;
+}
+.fa-facebook {
+  color: #3b5998;
+}
+.fa-twitter {
+  color: #00acee;
 }
 </style>

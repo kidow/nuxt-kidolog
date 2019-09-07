@@ -107,7 +107,10 @@ module.exports = {
 
   css: [{ src: '~/assets/scss/main.scss', lang: 'scss' }],
 
-  plugins: ['@/plugins/element-ui'],
+  plugins: [
+    '@/plugins/element-ui',
+    { src: '~/plugins/vue-clipboard2', ssr: false }
+  ],
 
   modules: [
     '@nuxtjs/font-awesome',

@@ -34,6 +34,7 @@ const find = ({ offset, search }) => {
       FROM
         posts
       ${searchSQL}
+      LIMIT 6
       ${offsetSQL}
     `,
     injection
