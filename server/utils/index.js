@@ -1,9 +1,9 @@
-const cookie = require('./cookie')
+const cookieOptions = require('./cookieOptions')
 const passportOauth = require('./passportOauth')
 const queryPromise = require('./queryPromise')
 
 module.exports = {
-  cookie,
+  cookieOptions,
   passportOauth,
   queryPromise
 }

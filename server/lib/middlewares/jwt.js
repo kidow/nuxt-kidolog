@@ -1,5 +1,5 @@
 const { encodeToken, decodeToken } = require('@lib/jwt')
-const cookieOptions = require('@utils/cookie')
+const { cookieOptions } = require('@utils')
 
 module.exports = async (req, res, next) => {
   const token = req.cookies['access_token']

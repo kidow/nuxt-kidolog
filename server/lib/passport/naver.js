@@ -1,5 +1,5 @@
 const NaverStrategy = require('passport-naver').Strategy
-const passportOauth = require('@utils/passportOauth')
+const { passportOauth } = require('@utils')
 const { NODE_ENV, NAVER_APP_ID, NAVER_SECRET_KEY } = process.env
 const BASE_URL =
   NODE_ENV === 'production'

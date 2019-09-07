@@ -5,18 +5,40 @@ const findById = injection =>
     `
       SELECT
         id,
+        status,
         providerId,
         provider,
         displayName,
-        thumbnail
+        email,
+        profileUrl
       FROM
         users
       WHERE
-        providerId = ?
+        id = ?
     `,
     injection
   )
 
+const findByProviderId = injection =>
+  queryPromise(
+    `
+    SELECT
+      id,
+      status,
+      providerId,
+      provider,
+      displayName,
+      email,
+      profileUrl
+    FROM
+      users
+    WHERE
+      providerId = ?
+  `,
+    injection
+  )
+
 module.exports = {
-  findById
+  findById,
+  findByProviderId
 }

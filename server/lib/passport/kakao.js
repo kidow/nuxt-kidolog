@@ -1,5 +1,5 @@
 const KakaoStartegy = require('passport-kakao').Strategy
-const passportOauth = require('@utils/passportOauth')
+const { passportOauth } = require('@utils')
 
 module.exports = passport => {
   passport.use(

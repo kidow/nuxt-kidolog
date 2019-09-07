@@ -8,11 +8,31 @@
         <input type="text" v-model="title" placeholder="제목을 입력해주세요." />
       </div>
       <div class="header__right flex">
-        <el-button plain icon="el-icon-upload2">썸네일</el-button>
+        <el-upload
+          :on-success="imageUpload"
+          :before-upload="beforeUpload"
+          action="/prv/posts/image"
+          accept="image/*"
+          name="image"
+          :with-credentials="true"
+          :show-file-list="false"
+        >
+          <el-button plain icon="el-icon-upload2">썸네일</el-button>
+        </el-upload>
         <div style="width: 0.5rem" />
-        <el-button plain icon="el-icon-picture">업로드</el-button>
+        <el-upload
+          :on-success="thumbnailUpload"
+          :before-upload="beforeUpload"
+          action="/prv/posts/thumbnail"
+          accept="image/*"
+          name="thumb"
+          :with-credentials="true"
+          :show-file-list="false"
+        >
+          <el-button plain icon="el-icon-picture">업로드</el-button>
+        </el-upload>
         <div style="width: 0.5rem" />
-        <el-button class="submit" type="primary" plain>작성하기</el-button>
+        <el-button @click="onSubmit" v-loading="loading" class="submit" type="primary" plain>작성하기</el-button>
       </div>
     </div>
     <div class="editor__content flex">
@@ -38,13 +58,16 @@
 <script>
 import VueMarkdown from '~/components/Markdown'
 import VuePreview from '~/components/Preview'
+import { mapGetters } from 'vuex'
 export default {
   layout: 'editor',
   data: _ => ({
     title: '',
     leftPercentage: 0.5,
     markdown: '',
-    tags: ''
+    tags: '',
+    thumbnail: '',
+    loading: false
   }),
   methods: {
     onSeparatorMouseDown() {
@@ -57,11 +80,62 @@ export default {
     onMouseUp() {
       document.body.removeEventListener('mousemove', this.onMouseMove)
       window.removeEventListener('mouseup', this.onMouseUp)
+    },
+    imageUpload({ image }) {
+      if (!image)
+        return this.notifyError(
+          '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
+        )
+      this.markdown += image
+    },
+    thumbnailUpload({ thumbnail }) {
+      if (!thumbnail)
+        return this.notifyError(
+          '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
+        )
+      this.thumbnail = thumbnail
+    },
+    beforeUpload(file) {
+      const isOver3M = file.size / 1024 / 1024 / 1024 > 3
+
+      if (isOver3M) {
+        this.notifyError('이미지의 용량이 3MB를 초과합니다.')
+        return false
+      }
+
+      return true
+    },
+    async onSubmit() {
+      if (!this.title || !this.markdown) return
+      this.loading = true
+      const options = {
+        url: '/prv/posts',
+        method: 'post',
+        data: {
+          title: this.title,
+          content: this.markdown,
+          thumbnail: this.thumbnail,
+          tags: this.tags
+        }
+      }
+      try {
+        const { data } = await this.$axios(options)
+        this.$router.push(`/post/${data.postId}`)
+      } catch (err) {
+        console.log(err)
+        this.loading = false
+        this.notifyError(err.response.data.message)
+      }
     }
   },
   components: {
     VueMarkdown,
     VuePreview
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN'
+    })
   }
 }
 </script>

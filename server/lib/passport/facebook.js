@@ -1,5 +1,5 @@
 const FacebookStrategy = require('passport-facebook').Strategy
-const passportOauth = require('@utils/passportOauth')
+const { passportOauth } = require('@utils')
 const { NODE_ENV, FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY } = process.env
 const BASE_URL =
   NODE_ENV === 'production'

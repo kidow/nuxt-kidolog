@@ -1,12 +1,19 @@
 const passport = require('passport')
+const { cookieOptions } = require('@utils')
+const { encodeToken } = require('@lib/jwt')
 
 // GET /auth/callback/:provider
 module.exports = (req, res, next) => {
   const { provider } = req.params
-  passport.authenticate(provider, (err, user, info) => {
+  passport.authenticate(provider, async (err, user, info) => {
     try {
       if (err) return next(err)
-      res.status(200).json(true)
+      const token = await encodeToken(Object.assign({}, user))
+      req.login(user, err => {
+        if (err) return next(err)
+        res.cookie('access_token', token, cookieOptions(1))
+        res.send('<script>window.close(); location.reload()</script>')
+      })
     } catch (err) {
       next(err)
     }

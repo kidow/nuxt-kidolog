@@ -1,5 +1,5 @@
 const TwitterStrategy = require('passport-twitter').Strategy
-const passportOauth = require('@utils/passportOauth')
+const { passportOauth } = require('@utils')
 const { NODE_ENV, TWITTER_APP_ID, TWITTER_SECRET_KEY } = process.env
 const BASE_URL =
   NODE_ENV === 'production'

@@ -1,9 +1,11 @@
 export const state = () => ({
   user: {
-    id: null,
+    id: '',
     email: '',
     displayName: '',
-    thumbnail: '',
+    profileUrl: '',
+    provider: '',
+    providerId: '',
     status: null
   }
 })
@@ -22,7 +24,9 @@ export const mutations = {
       id: '',
       email: '',
       displayName: '',
-      thumbnail: '',
+      profileUrl: '',
+      provider: '',
+      providerId: '',
       status: null
     }
   }

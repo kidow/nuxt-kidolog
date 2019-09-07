@@ -1,5 +1,5 @@
 const GithubStrategy = require('passport-github').Strategy
-const passportOauth = require('@utils/passportOauth')
+const { passportOauth } = require('@utils')
 const { NODE_ENV, GITHUB_APP_ID, GITHUB_SECRET_KEY } = process.env
 const BASE_URL =
   NODE_ENV === 'production'

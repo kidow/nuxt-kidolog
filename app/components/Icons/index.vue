@@ -14,12 +14,7 @@ export default {
   name: 'VueIcons',
   methods: {
     OAuthLogin(url) {
-      const { path } = this.$route
-      window.open(
-        url + `?redirect=${path}`,
-        'login',
-        'menubar=1, resizable=1, width=500, height=600'
-      )
+      window.open(url, 'login', 'menubar=1, resizable=1, width=500, height=600')
     }
   }
 }
