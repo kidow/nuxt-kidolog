@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
     <i class="fas fa-home" @click="$router.push('/')" :class="{ matched: $route.path === '/' }"></i>
-    <i class="fas fa-search"></i>
+    <i class="fas fa-search" @click="search"></i>
     <i
       class="fas fa-tags"
       @click="$router.push('/tag')"
@@ -12,7 +12,17 @@
 
 <script>
 export default {
-  name: 'VueNavigation'
+  name: 'VueNavigation',
+  methods: {
+    search() {
+      this.$prompt("맨 앞에 '#'를 붙이면 태그를 검색합니다. ", '검색', {
+        confirmButtonText: '검색',
+        cancelButtonText: '취소'
+      })
+        .then(({ value }) => this.$router.push(`/?search=${value}`))
+        .catch(_ => {})
+    }
+  }
 }
 </script>
 

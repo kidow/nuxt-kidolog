@@ -17,13 +17,17 @@ const findById = injection => {
     con.query(sql, injection, (err, result) => {
       if (err) return reject(err)
 
-      resolve(result)
+      resolve(result[0])
     })
   })
 }
 
 const find = ({ offset, search }) => {
-  const searchSQL = search ? 'WHERE tag LIKE ?' : ''
+  let searchSQL = ''
+  if (search) {
+    if (search[0] === '#') searchSQL = 'WHERE tags LIKE ?'
+    else searchSQL = 'WHERE title LIKE ?'
+  }
   const offsetSQL = offset ? 'OFFSET ?' : ''
   let injection = []
   if (search) injection.push(`%${search}%`)

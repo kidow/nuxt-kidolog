@@ -3,11 +3,13 @@
     <vue-logo v-if="!$device.isMobile" style="padding-left: 1rem; font-size: 2rem" />
     <div class="content__container" :class="{ mobile: !$device.isMobile}">
       <div class="content-title">{{ post.title }}</div>
-      <div class="content-buttons" v-if="isLoggedIn">
+      <div class="content-buttons" v-if="isLoggedIn && user.status === 2">
         <el-button @click="$router.push(`/editor/${post.id}`)">수정</el-button>
         <el-button @click="removePost">삭제</el-button>
       </div>
-      <div class="content-date">{{ post.createdAt }}</div>
+      <div
+        class="content-date"
+      >{{ $moment(post.createdAt).add(9, 'hour').format('YYYY년 MM월 DD일 hh:mm:ss') }}</div>
       <div class="content-body">
         <vue-marked :markdown="post.content" />
       </div>
@@ -38,6 +40,7 @@
           :comment="comment"
           @replyMode="comment => replyMode(comment)"
           @addReply="addReply"
+          @removeComment="removeComment"
         />
       </div>
     </div>
@@ -62,7 +65,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: 'auth/IS_LOGGED_IN'
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      user: 'auth/GET_USER'
     }),
     placeholder() {
       if (this.isLoggedIn) return '댓글을 달아보세요.'
@@ -70,49 +74,14 @@ export default {
     }
   },
   data: _ => ({
-    post: {
-      id: '1',
-      title: 'Redux-saga에 앞서 Generator 이해하기',
-      content:
-        '개발밖에 할줄 모르는 저에게 고퀄리티의 디자인을 제공해주는 플랫폼이 참 필요했었는데, 이거 참 맘에 드는 서비스인 것 같습니다. ㅎㅎ 앞으로 블로그와 개인 프로젝트의 디자인은 이걸로 해결해 볼 생각입니다. 여러분도 써보면 좋겠군요.',
-      createdAt: '2019년 9월 5일 오후 9:19',
-      tags: ['redux-saga', 'generator']
-    },
+    post: {},
     comment: '',
     loading: {
       comment: false,
       post: false,
       edit: false
     },
-    comments: [
-      {
-        id: '1',
-        parentId: null,
-        displayName: 'Kidow',
-        thumbnail: 'https://picsum.photos/200',
-        createdAt: Date.now(),
-        content:
-          '내가 달건이 생활을 17살에 시작했다. 내가 달건이 생활을 17살에 시작했다. 내가 달건이 생활을 17살에 시작했다. 내가 달건이 생활을 17살에 시작했다',
-        isReply: false,
-        isEdit: false,
-        reply: '',
-        userId: '3',
-        loading: false
-      },
-      {
-        id: '2',
-        parentId: '1',
-        displayName: 'Kidow',
-        thumbnail: 'https://picsum.photos/200',
-        createdAt: Date.now(),
-        content: '내가 달건이 생활을 17살에 시작했다',
-        isReply: false,
-        isEdit: false,
-        reply: '',
-        userId: '4',
-        loading: false
-      }
-    ]
+    comments: []
   }),
   methods: {
     removePost() {
@@ -145,11 +114,13 @@ export default {
         method: 'post',
         data: {
           postId: this.$route.params.postId,
-          content: this.comment
+          content: this.comment,
+          userId: this.user.id
         }
       }
       try {
         const { data } = await this.$axios(options)
+        this.comments.push(data)
         this.loading.comment = false
         this.comment = ''
         this.$message({ message: '성공적으로 등록되었습니다', type: 'success' })
@@ -162,7 +133,24 @@ export default {
     replyMode(comment) {
       comment.isReply = !comment.isReply
     },
-    addReply() {}
+    addReply(reply, index) {
+      this.comments.splice(index + 1, 0, reply)
+    },
+    removeComment(index) {
+      this.comments.splice(index, 1)
+    }
+  },
+  async asyncData({ app, params }) {
+    const options = {
+      url: `/posts/${params.postId}`,
+      method: 'get'
+    }
+    try {
+      const { data } = await app.$axios(options)
+      return { post: data.post, comments: data.comments }
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 </script>

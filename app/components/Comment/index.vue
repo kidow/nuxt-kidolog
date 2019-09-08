@@ -1,7 +1,12 @@
 <template>
   <div class="comment__container" :class="{ parent: comment.parentId }">
     <div class="comment__head flex">
-      <img :src="comment.thumbnail" :alt="comment.displayName" />
+      <img v-if="comment.profileUrl" :src="comment.profileUrl" :alt="comment.displayName" />
+      <img
+        v-else
+        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        alt="avatar"
+      />
       <div class="text">
         <span class="name">{{ comment.displayName }}</span>
         <div class="date">{{ $moment(comment.createdAt).fromNow() }}</div>
@@ -13,22 +18,14 @@
     </div>
     <div class="reply__container">
       <span v-if="!comment.parentId" @click="$emit('replyMode', comment)">답글</span>
-      <span @click="editComment">수정</span>
-      <span>삭제</span>
+      <span v-if="comment.userId === user.id" @click="editComment">수정</span>
+      <span v-if="comment.userId === user.id" @click="removeComment">삭제</span>
     </div>
     <div class="reply__input" v-if="comment.isReply">
-      <el-input
-        type="textarea"
-        :rows="3"
-        style="margin-top: 8px"
-        v-model="comment.reply"
-        :disabled="!comment.reply"
-        :placeholder="!isLoggedIn ? '로그인이 필요합니다' : ''"
-      />
+      <el-input type="textarea" :rows="3" style="margin-top: 8px" v-model="comment.reply" />
       <div class="reply__button">
         <el-button
           type="primary"
-          v-if="isLoggedIn"
           v-loading="comment.loading"
           :disabled="!comment.reply"
           @click="submitReply"
@@ -55,18 +52,21 @@ export default {
   },
   methods: {
     async submitReply() {
+      if (!this.isLoggedIn) return this.notifyInfo('로그인이 필요합니다')
       this.comment.loading = true
       const options = {
         url: `/prt/comments`,
         method: 'post',
         data: {
-          comment: this.comment.reply,
-          parentId: this.comment.id
+          content: this.comment.reply,
+          parentId: this.comment.id,
+          postId: this.$route.params.postId,
+          userId: this.user.id
         }
       }
       try {
         const { data } = await this.$axios(options)
-        this.$emit('addReply', data)
+        this.$emit('addReply', data, this.index)
         this.comment.loading = false
         this.$message({ message: '성공적으로 등록되었습니다', type: 'success' })
         this.comment.reply = ''
@@ -83,7 +83,8 @@ export default {
         url: `/prt/comments/${this.comment.id}`,
         method: 'put',
         data: {
-          content: this.comment
+          content: this.comment.content,
+          userId: this.user.id
         }
       }
       try {
@@ -106,20 +107,23 @@ export default {
         type: 'warning'
       })
         .then(_ => this.$axios(options))
-        .then(_ =>
+        .then(_ => {
           this.$message({
             message: '성공적으로 삭제되었습니다',
             type: 'success'
-          }).catch(err => {
-            console.log(err)
-            this.notifyError(err.response.data.message)
           })
-        )
+          this.$emit('removeComment', this.index)
+        })
+        .catch(err => {
+          console.log(err)
+          this.notifyError(err.response.data.message)
+        })
     }
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: 'auth/IS_LOGGED_IN'
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      user: 'auth/GET_USER'
     })
   }
 }
@@ -130,7 +134,6 @@ export default {
 
 .comment__container {
   padding: 1rem;
-  border-bottom: 1px solid $oc-gray-3;
   &.parent {
     margin-left: 3rem;
   }

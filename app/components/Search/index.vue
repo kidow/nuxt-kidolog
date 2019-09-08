@@ -22,7 +22,7 @@ export default {
     async onSearch() {
       this.loading = true
       const options = {
-        url: '/posts/search',
+        url: '/posts',
         method: 'get',
         params: {
           search: this.search
@@ -30,6 +30,7 @@ export default {
       }
       try {
         const { data } = await this.$axios(options)
+        this.$emit('search', data)
         this.loading = false
       } catch (err) {
         this.loading = false
@@ -40,8 +41,12 @@ export default {
   },
   watch: {
     search(val) {
-      this.$emit('search', val)
+      this.$emit('searchChange', val)
     }
+  },
+  mounted() {
+    this.search = this.$route.query.search
+    this.onSearch()
   }
 }
 </script>

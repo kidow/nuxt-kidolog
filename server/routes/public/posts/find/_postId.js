@@ -9,6 +9,7 @@ module.exports = async (req, res, next) => {
       Post.findById(postId),
       Comment.findByPostId(postId)
     ])
+    if (post.tags) post.tags = post.tags.split(', ')
     res.status(200).json({ post, comments })
   } catch (err) {
     next(err)

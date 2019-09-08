@@ -2,7 +2,7 @@ const User = require('@models/users')
 
 module.exports = async (profile, done) => {
   try {
-    const [user] = await User.findByProviderId(profile.id)
+    const user = await User.findByProviderId(profile.id)
     if (!user) {
       let profileUrl = ''
       switch (profile.provider) {

@@ -87,7 +87,7 @@ header {
     .fa-code {
       color: $brand-color;
       cursor: pointer;
-      margin-left: 6px;
+      margin: 0 6px;
       &:hover {
         opacity: 0.8;
       }

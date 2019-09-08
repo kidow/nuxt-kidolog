@@ -1,6 +1,6 @@
 <template>
   <div class="main__container">
-    <vue-search @search="val => search = val" />
+    <vue-search @searchChange="val => search = val" @search="onSearch" />
     <div class="post-list">
       <vue-card v-for="post in posts" :key="post.uuid" :post="post" />
     </div>
@@ -17,40 +17,7 @@ export default {
     VueCard
   },
   data: _ => ({
-    posts: [
-      {
-        uuid: '1',
-        title: 'Redux-saga에 앞서 Generator 이해하기',
-        markdown:
-          '제너레이터 함수를 생성할 때는 function*으로 생성합니다. function* generator() { console.log(1) console.lo...',
-        createdAt: '5일 전',
-        thumbnail: 'https://picsum.photos/200/300'
-      },
-      {
-        uuid: '2',
-        title: 'Redux-saga에 앞서 Generator 이해하기',
-        markdown:
-          '제너레이터 함수를 생성할 때는 function*으로 생성합니다. function* generator() { console.log(1) console.lo...',
-        createdAt: '5일 전',
-        thumbnail: 'https://picsum.photos/200/300'
-      },
-      {
-        uuid: '3',
-        title: 'Redux-saga에 앞서 Generator 이해하기',
-        markdown:
-          '제너레이터 함수를 생성할 때는 function*으로 생성합니다. function* generator() { console.log(1) console.lo...',
-        createdAt: '5일 전',
-        thumbnail: 'https://picsum.photos/200/300'
-      },
-      {
-        uuid: '4',
-        title: 'Redux-saga에 앞서 Generator 이해하기',
-        markdown:
-          '제너레이터 함수를 생성할 때는 function*으로 생성합니다. function* generator() { console.log(1) console.lo...',
-        createdAt: '5일 전',
-        thumbnail: 'https://picsum.photos/200/300'
-      }
-    ],
+    posts: [],
     offset: 0,
     search: ''
   }),
@@ -66,6 +33,12 @@ export default {
       }
     } catch (err) {
       console.log(err)
+    }
+  },
+  methods: {
+    onSearch(data) {
+      this.posts = data
+      this.offset = 0
     }
   }
 }

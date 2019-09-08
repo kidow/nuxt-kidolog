@@ -7,9 +7,14 @@ const findByPostId = injection => {
         c.id,
         c.parentId,
         c.content,
-        u.thumbnail,
+        u.profileUrl,
         u.displayName,
-        c.createdAt
+        c.createdAt,
+        c.userId,
+        0 AS loading,
+        0 AS isReply,
+        0 AS isEdit,
+        '' AS reply
 
       FROM
         comments c
@@ -19,6 +24,8 @@ const findByPostId = injection => {
         c.userId = u.id
       WHERE
         postId = ?
+      ORDER BY
+        IF (ISNULL(c.parentId), c.id, c.parentId), c.createdAt
     `
     con.query(sql, injection, (err, result) => {
       if (err) return reject(err)

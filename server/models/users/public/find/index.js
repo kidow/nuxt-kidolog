@@ -18,7 +18,7 @@ const findById = injection => {
     con.query(sql, injection, (err, result) => {
       if (err) return reject(err)
 
-      resolve(result)
+      resolve(result[0])
     })
   })
 }
@@ -41,7 +41,7 @@ const findByProviderId = injection => {
     con.query(sql, injection, (err, result) => {
       if (err) return reject(err)
 
-      resolve(result)
+      resolve(result[0])
     })
   })
 }
