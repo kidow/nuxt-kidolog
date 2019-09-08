@@ -87,6 +87,9 @@ header {
     }
     .fa-sign-out-alt {
       color: $oc-gray-7;
+      &:hover {
+        color: $brand-color;
+      }
     }
   }
   @include media('<phone') {

@@ -6,8 +6,8 @@ module.exports = async (req, res, next) => {
   const schema = Joi.object().keys({
     title: Joi.string().required(),
     content: Joi.string().required(),
-    tags: Joi.string().required(),
-    thumbnail: Joi.string().required()
+    tags: Joi.string().allow(''),
+    thumbnail: Joi.string().allow('')
   })
   const { error } = Joi.validate(req.body, schema)
   if (error) return next(error)
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
   const { postId } = req.params
   try {
     await Post.private.update([req.body, postId])
-    res.status(200).json(true)
+    res.status(200).json({ postId })
   } catch (err) {
     next(err)
   }

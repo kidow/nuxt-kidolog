@@ -9,7 +9,7 @@
       />
       <div class="text">
         <span class="name">{{ comment.displayName }}</span>
-        <div class="date">{{ $moment(comment.createdAt).fromNow() }}</div>
+        <div class="date">{{ $moment(comment.createdAt).add(9, 'hour').fromNow() }}</div>
       </div>
     </div>
     <div class="comment__body">

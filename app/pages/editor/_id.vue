@@ -125,7 +125,7 @@ export default {
       let url
       let method
       if (params.id) {
-        url = `/prv/ports/${params.id}`
+        url = `/prv/posts/${params.id}`
         method = 'put'
       } else {
         url = '/prv/posts'
@@ -134,7 +134,7 @@ export default {
       const options = { data, url, method }
       try {
         const { data } = await this.$axios(options)
-        this.$router.push(`/post/${data.postId}`)
+        this.$router.push(`/post/${this.$titleUrl(this.title, data.postId)}`)
       } catch (err) {
         console.log(err)
         this.loading = false

@@ -1,15 +1,12 @@
 <template>
   <el-card :body-style="{ padding: '0px' }">
-    <img
-      @click="$router.push(`/post/${post.id}`)"
-      v-if="post.thumbnail"
-      :src="post.thumbnail"
-      alt="thumb"
-    />
-    <div class="no-image" @click="$router.push(`/post/${post.id}`)" v-else>이미지가 없습니다</div>
+    <template @click="$router.push(postUrl)">
+      <img v-if="post.thumbnail" :src="post.thumbnail" alt="thumb" />
+      <div class="no-image" @click="$router.push(postUrl)" v-else>이미지가 없습니다</div>
+    </template>
     <div class="card__body">
-      <nuxt-link class="title" :to="`/post/${post.id}`">{{ post.title }}</nuxt-link>
-      <div class="date">{{ $moment(post.createdAt).fromNow() }}</div>
+      <nuxt-link class="title" :to="postUrl">{{ post.title }}</nuxt-link>
+      <div class="date">{{ $moment(post.createdAt).add(9, 'hour').fromNow() }}</div>
     </div>
     <div class="card__desc">{{ post.content }}</div>
   </el-card>
@@ -22,6 +19,11 @@ export default {
     post: {
       type: Object,
       default: _ => {}
+    }
+  },
+  computed: {
+    postUrl() {
+      return `/post/${this.$titleUrl(this.post.title, this.post.id)}`
     }
   }
 }

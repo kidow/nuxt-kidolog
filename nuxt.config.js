@@ -1,7 +1,8 @@
 const { NODE_ENV } = process.env
 const TITLE = 'Kidolog'
 const DESCRIPTION = "Kidow's Blog"
-const IMAGE = ''
+const IMAGE =
+  'https://kidolog-v2.s3.ap-northeast-2.amazonaws.com/kidolog-icon.png'
 const PUBLIC_LINK = 'https://www.kidolog.com'
 const COLOR = '#e8590c'
 const BASE_URL =
@@ -109,9 +110,27 @@ module.exports = {
 
   plugins: [
     '@/plugins/element-ui',
-    { src: '~/plugins/vue-clipboard2', ssr: false }
+    { src: '~/plugins/vue-clipboard2', ssr: false },
+    { src: '~/plugins/vue-custom', ssr: true }
   ],
+  sitemap: {
+    path: '/sitemap.xml',
+    hostname: PUBLIC_LINK,
+    cacheTime: 1000 * 60 * 15,
+    gzip: true,
+    generate: false,
+    routes: async () => {
+      const axios = require('axios')
+      const api = '/sitemaps'
 
+      try {
+        const { data } = await axios.get(api)
+        return data
+      } catch (err) {
+        console.error('failed to generate sitemap.', err)
+      }
+    }
+  },
   modules: [
     '@nuxtjs/font-awesome',
     '@nuxtjs/axios',
@@ -137,7 +156,7 @@ module.exports = {
     }
   },
   manifest: {
-    name: TITLE,
+    name: DESCRIPTION,
     short_name: TITLE,
     icons: [
       {

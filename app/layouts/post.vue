@@ -41,14 +41,14 @@ export default {
       const { path } = this.$route
       const url = `http://www.facebook.com/sharer/sharer.php?u=${BASE_URL}${path}`
       this.share = false
-      window.open(url, 'share', 'menubar=1, resizable=1, width=800, height=500')
+      this.$shareSns(url)
     },
     shareTwitter() {
       const { BASE_URL } = process.env
       const { path } = this.$route
       const url = `https://twitter.com/intent/tweet?text=TEXT&url=${BASE_URL}${path}`
       this.share = false
-      window.open(url, 'share', 'menubar=1, resizable=1, width=800, height=500')
+      this.$shareSns(url)
     },
     copyLink() {
       this.$copyText(`${process.env.BASE_URL}${this.$route.path}`)

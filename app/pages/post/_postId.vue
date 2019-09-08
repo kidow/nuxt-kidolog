@@ -53,6 +53,7 @@ import VueTag from '~/components/Tag'
 import VueComment from '~/components/Comment'
 import VueIcons from '~/components/Icons'
 import VueMarked from '~/components/Marked'
+import removeMd from 'remove-markdown'
 import { mapGetters } from 'vuex'
 export default {
   layout: 'post',
@@ -86,7 +87,7 @@ export default {
   methods: {
     removePost() {
       const options = {
-        url: `/prt/posts/${this.$route.params.postId}`,
+        url: `/prv/posts/${this.$route.params.postId}`,
         method: 'delete'
       }
       this.$confirm('정말 삭제하시겠습니까?', '경고', {
@@ -141,8 +142,10 @@ export default {
     }
   },
   async asyncData({ app, params }) {
+    const sliceParams = paramsId =>
+      paramsId.slice(paramsId.lastIndexOf('-') + 1, paramsId.length)
     const options = {
-      url: `/posts/${params.postId}`,
+      url: `/posts/${sliceParams(params.postId)}`,
       method: 'get'
     }
     try {
@@ -152,6 +155,77 @@ export default {
     } catch (err) {
       console.log(err)
     }
+  },
+  head() {
+    return {
+      title: `${this.post.title} | Kidolog`,
+      meta: [
+        // Open Graph
+        { hid: 'og-type', property: 'og:type', content: 'website' },
+        {
+          hid: 'og-site_name',
+          property: 'og:site_name',
+          content: 'Kidolog'
+        },
+        { hid: 'og-title', property: 'og:title', content: this.post.title },
+        {
+          hid: 'og-description',
+          property: 'og-description',
+          content: removeMd(this.post.markdown)
+        },
+        {
+          hid: 'og-image',
+          property: 'og:image',
+          content: this.post.thumbnail
+        },
+        {
+          hid: 'og-url',
+          property: 'og:url',
+          content: process.env.BASE_URL + this.$route.path
+        },
+        {
+          hid: 'og-image-alt',
+          property: 'og:image:alt',
+          content: '###kidolog###'
+        },
+        // Twitter
+        {
+          hid: 'twitter-site',
+          property: 'twitter:site',
+          content: '@Kidolog'
+        },
+        {
+          hid: 'twitter-card',
+          property: 'twitter:card',
+          content: 'summary'
+        },
+        {
+          hid: 'twitter-title',
+          property: 'twitter:title',
+          content: 'Kidolog'
+        },
+        {
+          hid: 'twitter-description',
+          property: 'twitter:description',
+          content: removeMd(this.post.markdown)
+        },
+        {
+          hid: 'twitter-image',
+          property: 'twitter:image',
+          content: this.post.thumbnail
+        },
+        {
+          hid: 'twitter-domain',
+          property: 'twitter:domain',
+          content: process.env.BASE_URL + this.$route.path
+        }
+      ]
+    }
+  },
+  validate({ params }) {
+    const sliceParams = paramsId =>
+      paramsId.slice(paramsId.lastIndexOf('-') + 1, paramsId.length)
+    return /[0-9]/.test(sliceParams(params.postId))
   }
 }
 </script>
