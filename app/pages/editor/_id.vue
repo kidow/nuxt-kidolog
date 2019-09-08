@@ -32,13 +32,20 @@
           <el-button plain icon="el-icon-picture">업로드</el-button>
         </el-upload>
         <div style="width: 0.5rem" />
-        <el-button @click="onSubmit" v-loading="loading" class="submit" type="primary" plain>작성하기</el-button>
+        <el-button
+          @click="onSubmit"
+          v-loading="loading"
+          class="submit"
+          type="primary"
+          plain
+        >{{ submitText }}</el-button>
       </div>
     </div>
     <div class="editor__content flex">
       <div class="content__flex flex display" :style="{ flex: leftPercentage }">
         <vue-markdown
           @tagChange="tag => tags = tag"
+          :tag="tags"
           :markdown="markdown"
           @markdown="md => markdown = md"
         />
@@ -107,17 +114,24 @@ export default {
     },
     async onSubmit() {
       if (!this.title || !this.markdown) return
+      const { params } = this.$route
       this.loading = true
-      const options = {
-        url: '/prv/posts',
-        method: 'post',
-        data: {
-          title: this.title,
-          content: this.markdown,
-          thumbnail: this.thumbnail,
-          tags: this.tags
-        }
+      const data = {
+        title: this.title,
+        content: this.markdown,
+        thumbnail: this.thumbnail,
+        tags: this.tags
       }
+      let url
+      let method
+      if (params.id) {
+        url = `/prv/ports/${params.id}`
+        method = 'put'
+      } else {
+        url = '/prv/posts'
+        method = 'post'
+      }
+      const options = { data, url, method }
       try {
         const { data } = await this.$axios(options)
         this.$router.push(`/post/${data.postId}`)
@@ -135,9 +149,40 @@ export default {
   computed: {
     ...mapGetters({
       isLoggedIn: 'auth/IS_LOGGED_IN'
-    })
+    }),
+    submitText() {
+      return this.$route.params.id ? '수정하기' : '작성하기'
+    }
   },
-  middleware: 'isLoggedIn'
+  middleware: 'isLoggedIn',
+  async asyncData({ params, app, store, redirect }) {
+    if (!params.id) return
+    const user = store.getters['auth/GET_USER']
+    if (user.status !== 2) return redirect('/')
+    const options = {
+      url: `/posts/${params.id}`,
+      method: 'get'
+    }
+    try {
+      const {
+        data: { post }
+      } = await app.$axios(options)
+      if (!post.title) return redirect('/')
+      return {
+        title: post.title,
+        markdown: post.content,
+        tags: post.tags,
+        thumbnail: post.thumbnail
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  head() {
+    return {
+      title: '에디터 | Kidolog'
+    }
+  }
 }
 </script>
 

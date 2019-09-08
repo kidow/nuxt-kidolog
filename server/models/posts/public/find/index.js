@@ -25,8 +25,10 @@ const findById = injection => {
 const find = ({ offset, search }) => {
   let searchSQL = ''
   if (search) {
-    if (search[0] === '#') searchSQL = 'WHERE tags LIKE ?'
-    else searchSQL = 'WHERE title LIKE ?'
+    if (search[0] === '#') {
+      search = search.substr(1, search.length)
+      searchSQL = 'WHERE tags LIKE ?'
+    } else searchSQL = 'WHERE title LIKE ?'
   }
   const offsetSQL = offset ? 'OFFSET ?' : ''
   let injection = []

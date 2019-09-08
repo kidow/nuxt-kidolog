@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /editor/
 
 Sitemap: https://www.kidolog.com/sitemap.xml

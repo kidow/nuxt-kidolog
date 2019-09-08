@@ -147,6 +147,7 @@ export default {
     }
     try {
       const { data } = await app.$axios(options)
+      if (data.post.tags) data.post.tags = data.post.tags.split(', ')
       return { post: data.post, comments: data.comments }
     } catch (err) {
       console.log(err)

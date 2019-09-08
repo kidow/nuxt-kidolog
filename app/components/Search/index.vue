@@ -6,7 +6,7 @@
       autocomplete="off"
       autocapitalize="off"
       placeholder="태그 검색은 '#' 붙이기"
-      @keyup.enter="onSearch"
+      @keyup.enter="$emit('search')"
     />
   </div>
 </template>
@@ -14,39 +14,13 @@
 <script>
 export default {
   data: _ => ({
-    search: '',
-    loading: false
+    search: ''
   }),
   name: 'VueSearch',
-  methods: {
-    async onSearch() {
-      this.loading = true
-      const options = {
-        url: '/posts',
-        method: 'get',
-        params: {
-          search: this.search
-        }
-      }
-      try {
-        const { data } = await this.$axios(options)
-        this.$emit('search', data)
-        this.loading = false
-      } catch (err) {
-        this.loading = false
-        console.log(err)
-        this.notifyError(err.response.data.message)
-      }
-    }
-  },
   watch: {
     search(val) {
       this.$emit('searchChange', val)
     }
-  },
-  mounted() {
-    this.search = this.$route.query.search
-    this.onSearch()
   }
 }
 </script>

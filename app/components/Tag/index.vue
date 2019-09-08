@@ -1,5 +1,5 @@
 <template>
-  <el-tag type="info" @click="$router.push(`/tag/${tag}`)">{{ tag }}</el-tag>
+  <el-tag type="info" @click="$router.push(`/?search=#${tag}`)">{{ tag }}</el-tag>
 </template>
 
 <script>

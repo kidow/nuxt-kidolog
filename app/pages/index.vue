@@ -28,17 +28,32 @@ export default {
     }
     try {
       const { data } = await app.$axios(options)
-      return {
-        posts: data
-      }
+      return { posts: data }
     } catch (err) {
       console.log(err)
     }
   },
   methods: {
-    onSearch(data) {
-      this.posts = data
+    async onSearch() {
       this.offset = 0
+      this.getData()
+    },
+    async getData() {
+      const options = {
+        url: '/posts',
+        method: 'get',
+        params: {
+          search: this.search,
+          offset: this.offset
+        }
+      }
+      try {
+        const { data } = await this.$axios(options)
+        this.posts = data
+      } catch (err) {
+        console.log(err)
+        this.notifyError(err.response.data.message)
+      }
     }
   }
 }

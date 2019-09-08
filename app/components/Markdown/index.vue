@@ -39,20 +39,25 @@ export default {
       lineWrapping: true
     })
     this.codeMirror.on('change', this.onChangeMarkdown)
+    this.tags = this.tag
+    if (this.markdown) this.setMarkdown(this.markdown)
   },
   methods: {
     onChangeMarkdown(doc) {
       this.cursor = doc.getCursor()
       this.$emit('markdown', doc.getValue())
-    }
-  },
-  watch: {
-    markdown(val) {
+    },
+    setMarkdown(val) {
       const { codeMirror, cursor } = this
       if (!codeMirror) return
       codeMirror.setValue(val)
       if (!cursor) return
       codeMirror.setCursor(cursor)
+    }
+  },
+  watch: {
+    markdown(val) {
+      this.setMarkdown(val)
     },
     tags(val) {
       this.$emit('tagChange', val)
@@ -60,6 +65,10 @@ export default {
   },
   props: {
     markdown: {
+      type: String,
+      default: ''
+    },
+    tag: {
       type: String,
       default: ''
     }

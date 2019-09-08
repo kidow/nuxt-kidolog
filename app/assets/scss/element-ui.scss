@@ -12,3 +12,7 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     width: 100% !important;
   }
 }
+
+.el-drawer__body {
+  padding: 0 1rem;
+}

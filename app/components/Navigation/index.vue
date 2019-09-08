@@ -2,11 +2,6 @@
   <div class="navigation">
     <i class="fas fa-home" @click="$router.push('/')" :class="{ matched: $route.path === '/' }"></i>
     <i class="fas fa-search" @click="search"></i>
-    <i
-      class="fas fa-tags"
-      @click="$router.push('/tag')"
-      :class="{ matched: $route.path.indexOf('/tag') > -1 }"
-    ></i>
   </div>
 </template>
 

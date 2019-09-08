@@ -3,16 +3,7 @@
     <vue-logo />
     <div class="mobile" v-if="$device.isMobile">
       <i class="fas fa-bars" @click="drawer = true"></i>
-      <el-drawer
-        size="50%"
-        title="Kidolog"
-        direction="rtl"
-        :visible.sync="drawer"
-        :show-close="false"
-        :before-close="_ => drawer = false"
-      >
-        <span>Kidolog</span>
-      </el-drawer>
+      <vue-drawer :drawer="drawer" @drawer="drawer = false" />
     </div>
     <vue-icons v-else-if="!isLoggedIn" />
     <div class="icons" v-else>
@@ -25,12 +16,14 @@
 <script>
 import VueLogo from '~/components/Logo'
 import VueIcons from '~/components/Icons'
+import VueDrawer from '~/components/Drawer'
 import { mapGetters } from 'vuex'
 export default {
   name: 'VueHeader',
   components: {
     VueLogo,
-    VueIcons
+    VueIcons,
+    VueDrawer
   },
   data: _ => ({
     drawer: false

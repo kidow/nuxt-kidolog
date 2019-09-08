@@ -7,6 +7,8 @@ const update = injection => {
         posts
       SET
         ?
+      WHERE
+        id = ?
     `
     con.query(sql, injection, (err, result) => {
       if (err) return reject(err)
