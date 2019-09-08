@@ -1,6 +1,6 @@
 <template>
   <div class="main__container">
-    <vue-search />
+    <vue-search @search="val => search = val" />
     <div class="post-list">
       <vue-card v-for="post in posts" :key="post.uuid" :post="post" />
     </div>
@@ -49,8 +49,25 @@ export default {
         createdAt: '5일 전',
         thumbnail: 'https://picsum.photos/200/300'
       }
-    ]
-  })
+    ],
+    offset: 0,
+    search: ''
+  }),
+  async asyncData({ app }) {
+    const options = {
+      url: '/posts',
+      method: 'get'
+    }
+    try {
+      const { data } = await app.$axios(options)
+      console.log(data)
+      return {
+        posts: data
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 }
 </script>
 

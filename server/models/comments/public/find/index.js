@@ -1,8 +1,8 @@
-const { queryPromise } = require('@utils')
+const con = require('@mysql')
 
-const findByPostId = injection =>
-  queryPromise(
-    `
+const findByPostId = injection => {
+  return new Promise((resolve, reject) => {
+    const sql = `
       SELECT
         c.id,
         c.parentId,
@@ -19,9 +19,14 @@ const findByPostId = injection =>
         c.userId = u.id
       WHERE
         postId = ?
-    `,
-    injection
-  )
+    `
+    con.query(sql, injection, (err, result) => {
+      if (err) return reject(err)
+
+      resolve(result)
+    })
+  })
+}
 
 module.exports = {
   findByPostId

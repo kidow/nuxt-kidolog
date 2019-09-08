@@ -1,8 +1,8 @@
-const { queryPromise } = require('@utils')
+const con = require('@mysql')
 
-const findById = injection =>
-  queryPromise(
-    `
+const findById = injection => {
+  return new Promise((resolve, reject) => {
+    const sql = `
       SELECT
         id,
         status,
@@ -15,28 +15,38 @@ const findById = injection =>
         users
       WHERE
         id = ?
-    `,
-    injection
-  )
-
-const findByProviderId = injection =>
-  queryPromise(
     `
-    SELECT
-      id,
-      status,
-      providerId,
-      provider,
-      displayName,
-      email,
-      profileUrl
-    FROM
-      users
-    WHERE
-      providerId = ?
-  `,
-    injection
-  )
+    con.query(sql, injection, (err, result) => {
+      if (err) return reject(err)
+
+      resolve(result)
+    })
+  })
+}
+
+const findByProviderId = injection => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT
+        id,
+        status,
+        providerId,
+        provider,
+        displayName,
+        email,
+        profileUrl
+      FROM
+        users
+      WHERE
+        providerId = ?
+    `
+    con.query(sql, injection, (err, result) => {
+      if (err) return reject(err)
+
+      resolve(result)
+    })
+  })
+}
 
 module.exports = {
   findById,

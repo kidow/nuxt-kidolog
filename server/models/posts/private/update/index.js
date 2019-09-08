@@ -1,15 +1,20 @@
-const { queryPromise } = require('@utils')
+const con = require('@mysql')
 
-const update = injection =>
-  queryPromise(
+const update = injection => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      UPDATE
+        posts
+      SET
+        ?
     `
-    UPDATE
-      posts
-    SET
-      ?
-  `,
-    injection
-  )
+    con.query(sql, injection, (err, result) => {
+      if (err) return reject(err)
+
+      resolve(result)
+    })
+  })
+}
 
 module.exports = {
   update

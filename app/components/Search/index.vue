@@ -37,6 +37,11 @@ export default {
         this.notifyError(err.response.data.message)
       }
     }
+  },
+  watch: {
+    search(val) {
+      this.$emit('search', val)
+    }
   }
 }
 </script>

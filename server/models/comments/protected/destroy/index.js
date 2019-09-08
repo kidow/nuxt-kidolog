@@ -1,15 +1,20 @@
-const { queryPromise } = require('@utils')
+const con = require('@mysql')
 
-const destroy = injection =>
-  queryPromise(
+const destroy = injection => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      DELETE FROM
+        comments
+      WHERE
+        id = ?
     `
-  DELETE FROM
-    comments
-  WHERE
-    id = ?
-`,
-    injection
-  )
+    con.query(sql, injection, (err, result) => {
+      if (err) return reject(err)
+
+      resolve(result)
+    })
+  })
+}
 
 module.exports = {
   destroy
