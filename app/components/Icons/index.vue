@@ -14,7 +14,7 @@ export default {
   name: 'VueIcons',
   methods: {
     OAuthLogin(url) {
-      window.open(url, 'login', 'menubar=1, resizable=1, width=500, height=600')
+      location.href = url
     }
   }
 }

@@ -20,15 +20,7 @@ export const mutations = {
     state.user = user
   },
   CLEAR_USER(state) {
-    state.user = {
-      id: '',
-      email: '',
-      displayName: '',
-      profileUrl: '',
-      provider: '',
-      providerId: '',
-      status: null
-    }
+    state.user = {}
   }
 }
 
@@ -42,6 +34,21 @@ export const actions = {
       try {
         const { data } = await this.$axios(options)
         commit('SAVE_USER', data)
+        resolve()
+      } catch (err) {
+        reject(err)
+      }
+    })
+  },
+  LOGOUT({ commit }) {
+    return new Promise(async (resolve, reject) => {
+      const options = {
+        method: 'delete',
+        url: '/auth/logout'
+      }
+      try {
+        await this.$axios(options)
+        commit('CLEAR_USER')
         resolve()
       } catch (err) {
         reject(err)

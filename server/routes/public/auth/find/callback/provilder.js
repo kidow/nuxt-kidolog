@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
       req.login(user, err => {
         if (err) return next(err)
         res.cookie('access_token', token, cookieOptions(1))
-        res.send('<script>window.close(); location.reload()</script>')
+        res.send(`<script>location.href = '/'</script>`)
       })
     } catch (err) {
       next(err)

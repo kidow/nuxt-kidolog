@@ -10,6 +10,7 @@
 <script>
 import VueSearch from '~/components/Search'
 import VueCard from '~/components/Card'
+import throttle from 'lodash.throttle'
 export default {
   components: {
     VueSearch,
@@ -60,7 +61,6 @@ export default {
     }
     try {
       const { data } = await app.$axios(options)
-      console.log(data)
       return {
         posts: data
       }

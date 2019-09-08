@@ -16,7 +16,8 @@
     </div>
     <vue-icons v-else-if="!isLoggedIn" />
     <div class="icons" v-else>
-      <i class="fas fa-code" @click="$router.push('/editor')"></i>
+      <i class="fas fa-code" v-if="user.status === 2" @click="$router.push('/editor')"></i>
+      <i class="fas fa-sign-out-alt" @click="$store.dispatch('auth/LOGOUT')"></i>
     </div>
   </header>
 </template>
@@ -46,7 +47,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: 'auth/IS_LOGGED_IN'
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      user: 'auth/GET_USER'
     })
   }
 }
@@ -89,6 +91,9 @@ header {
       &:hover {
         opacity: 0.8;
       }
+    }
+    .fa-sign-out-alt {
+      color: $oc-gray-7;
     }
   }
   @include media('<phone') {

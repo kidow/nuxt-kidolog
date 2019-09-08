@@ -136,7 +136,8 @@ export default {
     ...mapGetters({
       isLoggedIn: 'auth/IS_LOGGED_IN'
     })
-  }
+  },
+  middleware: 'isLoggedIn'
 }
 </script>
 

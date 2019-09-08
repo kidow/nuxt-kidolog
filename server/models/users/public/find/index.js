@@ -9,7 +9,6 @@ const findById = injection => {
         providerId,
         provider,
         displayName,
-        email,
         profileUrl
       FROM
         users
@@ -33,7 +32,6 @@ const findByProviderId = injection => {
         providerId,
         provider,
         displayName,
-        email,
         profileUrl
       FROM
         users
