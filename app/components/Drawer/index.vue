@@ -11,6 +11,7 @@
         <div class="menu-title">내 계정</div>
         <ul class="menu-list">
           <li class="menu-item" @click="logout">로그아웃</li>
+          <li class="menu-item" @click="$router.push('/editor')">새 글</li>
         </ul>
       </template>
       <template v-else>
@@ -70,7 +71,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: 'auth/IS_LOGGED_IN'
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      user: 'auth/GET_USER'
     })
   }
 }

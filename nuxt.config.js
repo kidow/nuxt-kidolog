@@ -1,6 +1,6 @@
 const { NODE_ENV } = process.env
 const TITLE = 'Kidolog'
-const DESCRIPTION = "Kidow's Blog"
+const DESCRIPTION = 'Kidow Blog'
 const IMAGE =
   'https://kidolog-v2.s3.ap-northeast-2.amazonaws.com/kidolog-icon.png'
 const PUBLIC_LINK = 'https://www.kidolog.com'
