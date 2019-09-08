@@ -14,5 +14,11 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 }
 
 .el-drawer__body {
-  padding: 0 1rem;
+  padding: 0 20px;
+}
+
+.el-message {
+  @include media('<phone') {
+    min-width: 100% !important;
+  }
 }

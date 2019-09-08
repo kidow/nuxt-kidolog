@@ -14,7 +14,8 @@ export default {
   name: 'VueIcons',
   methods: {
     OAuthLogin(url) {
-      location.href = url
+      const { path, query } = this.$route
+      location.href = `${url}?redirect=${path}`
     }
   }
 }
