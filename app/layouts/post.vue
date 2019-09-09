@@ -2,27 +2,50 @@
   <div>
     <vue-header v-if="$device.isMobile" />
     <el-row class="post-container" :class="{ mobile: $device.isMobile }">
-      <el-col :lg="5" :sm="3" :xs="1" style="min-height: 1px" />
-      <el-col :lg="14" :sm="18" :xs="22">
+      <el-col :lg="5" :sm="3" :xs="1" style="min-height: 1px">
+        <client-only>
+          <affix relative-element-selector="#content" :scrollAffix="true">
+            <div style="position: relative; right: 28px">
+              <div>
+                <el-button
+                  @click="share = !share"
+                  :icon="share ? 'el-icon-close' : 'el-icon-share'"
+                  circle
+                />
+              </div>
+              <el-collapse-transition>
+                <div v-show="share">
+                  <div style="margin-top: 8px">
+                    <el-button
+                      icon="fab fa-facebook"
+                      @click="shareFacebook"
+                      style="color: #3b5998"
+                      circle
+                    />
+                  </div>
+                  <div style="margin-top: 8px">
+                    <el-button
+                      icon="fab fa-twitter"
+                      @click="shareTwitter"
+                      style="color: #00acee"
+                      circle
+                    />
+                  </div>
+                  <div style="margin-top: 8px">
+                    <el-button icon="el-icon-link" @click="copyLink" circle />
+                  </div>
+                </div>
+              </el-collapse-transition>
+            </div>
+          </affix>
+        </client-only>
+      </el-col>
+      <el-col :lg="14" :sm="18" :xs="22" id="content">
         <nuxt />
       </el-col>
       <el-col :lg="5" :sm="3" :xs="1" />
     </el-row>
     <vue-navigation v-if="$device.isMobile" />
-    <transition-group name="el-fade-in" v-if="share">
-      <el-backtop @click="shareFacebook" :bottom="280" :visibility-height="0" :key="1">
-        <i class="fab fa-facebook"></i>
-      </el-backtop>
-      <el-backtop @click="shareTwitter" :bottom="220" :visibility-height="0" :key="2">
-        <i class="fab fa-twitter"></i>
-      </el-backtop>
-      <el-backtop @click="copyLink" :bottom="160" :visibility-height="0" :key="3">
-        <i class="fas fa-link"></i>
-      </el-backtop>
-    </transition-group>
-    <el-backtop @click="share = !share" :bottom="100" :visibility-height="0">
-      <i class="el-icon-share"></i>
-    </el-backtop>
     <el-backtop />
   </div>
 </template>
@@ -96,11 +119,12 @@ export default {
 .fa-link {
   color: $oc-gray-7;
 }
-.fa-facebook {
-  color: #3b5998;
-}
-.fa-twitter {
-  color: #00acee;
+
+.vue-affix {
+  display: flex;
+  width: inherit;
+  justify-content: flex-end;
+  top: 155px !important;
 }
 </style>
 

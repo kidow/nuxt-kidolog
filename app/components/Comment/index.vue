@@ -19,6 +19,7 @@
     <div class="reply__container">
       <span v-if="!comment.parentId" @click="$emit('replyMode', comment)">답글</span>
       <span v-if="comment.userId === user.id" @click="editComment">수정</span>
+      <span v-if="comment.userId === user.id && comment.isEdit" @click="comment.isEdit = false">취소</span>
       <span v-if="comment.userId === user.id" @click="removeComment">삭제</span>
     </div>
     <div class="reply__input" v-if="comment.isReply">

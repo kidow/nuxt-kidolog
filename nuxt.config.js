@@ -111,7 +111,8 @@ module.exports = {
   plugins: [
     '@/plugins/element-ui',
     { src: '~/plugins/vue-clipboard2', ssr: false },
-    { src: '~/plugins/vue-custom', ssr: true }
+    { src: '~/plugins/vue-custom', ssr: true },
+    { src: '~/plugins/vue-affix', ssr: false }
   ],
   sitemap: {
     path: '/sitemap.xml',
