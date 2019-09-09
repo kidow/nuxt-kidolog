@@ -86,7 +86,7 @@ export default {
   methods: {
     removePost() {
       const options = {
-        url: `/prv/posts/${this.$route.params.postId}`,
+        url: `/prv/posts/${this.$sliceParams(this.$route.params.postId)}`,
         method: 'delete'
       }
       this.$confirm('정말 삭제하시겠습니까?', '경고', {
