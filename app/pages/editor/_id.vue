@@ -48,8 +48,10 @@
         <vue-markdown
           @tagChange="tag => tags = tag"
           :tag="tags"
+          :int="intro"
           :markdown="markdown"
           @markdown="md => markdown = md"
+          @introChange="int => intro = int"
         />
       </div>
       <div class="content__flex flex none" :style="{ flex: 1 - leftPercentage}">
@@ -76,6 +78,7 @@ export default {
     markdown: '',
     tags: '',
     thumbnail: '',
+    intro: '',
     loading: false
   }),
   methods: {
@@ -103,6 +106,7 @@ export default {
           '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
         )
       this.thumbnail = thumbnail
+      this.notifySuccess('썸네일이 업로드되었습니다')
     },
     uploadError(err) {
       this.notifyError(JSON.parse(err.message).message)
@@ -125,7 +129,8 @@ export default {
         title: this.title,
         content: this.markdown,
         thumbnail: this.thumbnail,
-        tags: this.tags
+        tags: this.tags,
+        intro: this.intro
       }
       let url
       let method
@@ -179,7 +184,8 @@ export default {
         title: post.title,
         markdown: post.content,
         tags: post.tags,
-        thumbnail: post.thumbnail
+        thumbnail: post.thumbnail,
+        intro: post.intro
       }
     } catch (err) {
       console.log(err)

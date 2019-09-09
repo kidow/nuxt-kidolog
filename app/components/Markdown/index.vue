@@ -2,6 +2,10 @@
   <div class="markdown__container flex">
     <div class="markdown__code-editor flex" ref="editor" />
     <div class="markdown__tags flex">
+      <div class="markdown__description">소개글</div>
+      <input type="text" name="intro" v-model="intro" placeholder="소개글을 입력하세요." />
+    </div>
+    <div class="markdown__tags flex">
       <div class="markdown__description">태그</div>
       <input type="text" name="tags" v-model="tags" placeholder="태그로 입력하세요 (쉼표로 구분)" />
     </div>
@@ -29,7 +33,8 @@ export default {
   data: _ => ({
     cursor: null,
     codeMirror: null,
-    tags: ''
+    tags: '',
+    intro: ''
   }),
   mounted() {
     this.codeMirror = CodeMirror(this.$refs.editor, {
@@ -40,6 +45,7 @@ export default {
     })
     this.codeMirror.on('change', this.onChangeMarkdown)
     this.tags = this.tag
+    this.intro = this.int
     if (this.markdown) this.setMarkdown(this.markdown)
   },
   methods: {
@@ -61,6 +67,9 @@ export default {
     },
     tags(val) {
       this.$emit('tagChange', val)
+    },
+    intro(val) {
+      this.$emit('introChange', val)
     }
   },
   props: {
@@ -69,6 +78,10 @@ export default {
       default: ''
     },
     tag: {
+      type: String,
+      default: ''
+    },
+    int: {
       type: String,
       default: ''
     }

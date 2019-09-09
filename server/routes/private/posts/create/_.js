@@ -7,7 +7,8 @@ module.exports = async (req, res, next) => {
     title: Joi.string().required(),
     content: Joi.string().required(),
     tags: Joi.string().allow(''),
-    thumbnail: Joi.string().allow('')
+    thumbnail: Joi.string().allow(''),
+    intro: Joi.string().allow('')
   })
   const { error } = Joi.validate(req.body, schema)
   if (error) return next(error)

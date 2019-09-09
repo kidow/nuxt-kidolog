@@ -8,7 +8,7 @@
       <nuxt-link class="title" :to="postUrl">{{ post.title }}</nuxt-link>
       <div class="date">{{ $moment(post.createdAt).add(9, 'hour').fromNow() }}</div>
     </div>
-    <div class="card__desc">{{ post.content }}</div>
+    <div class="card__desc">{{ post.intro }}</div>
   </el-card>
 </template>
 

@@ -53,7 +53,6 @@ import VueTag from '~/components/Tag'
 import VueComment from '~/components/Comment'
 import VueIcons from '~/components/Icons'
 import VueMarked from '~/components/Marked'
-import removeMd from 'remove-markdown'
 import { mapGetters } from 'vuex'
 export default {
   layout: 'post',
@@ -171,7 +170,7 @@ export default {
         {
           hid: 'og-description',
           property: 'og-description',
-          content: removeMd(this.post.markdown)
+          content: this.post.intro
         },
         {
           hid: 'og-image',
@@ -207,7 +206,7 @@ export default {
         {
           hid: 'twitter-description',
           property: 'twitter:description',
-          content: removeMd(this.post.markdown)
+          content: this.post.intro
         },
         {
           hid: 'twitter-image',

@@ -1,5 +1,6 @@
 const Comment = require('@models/comments')
 const Joi = require('@hapi/joi')
+const { NODE_ENV } = process.env
 
 // PUT /prt/comments/:commentId
 module.exports = async (req, res, next) => {
@@ -8,7 +9,8 @@ module.exports = async (req, res, next) => {
     userId: Joi.number().required()
   })
   const { error } = Joi.validate(req.body, schema)
-  if (error) return next(error)
+  if (error)
+    return NODE_ENV === 'production' ? next(error) : res.sendStatus(400)
 
   const { commentId } = req.params
   const { userId } = req.body

@@ -8,7 +8,8 @@ const findById = injection => {
         title,
         content,
         createdAt,
-        tags
+        tags,
+        intro
       FROM
         posts
       WHERE
@@ -35,10 +36,13 @@ const find = ({ offset, search }) => {
         thumbnail,
         title,
         createdAt,
-        content
+        content,
+        intro
       FROM
         posts
       ${searchSQL}
+      ORDER BY
+        createdAt DESC
       LIMIT 6
       ${offsetSQL}
     `

@@ -49,7 +49,6 @@
     "passport-twitter": "^1.0.4",
     "prismjs": "^1.17.1",
     "redis": "^2.8.0",
-    "remove-markdown": "^0.3.0",
     "vue-affix": "^0.5.2",
     "vue-clipboard2": "^0.3.1"
   },
