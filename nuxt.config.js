@@ -121,7 +121,7 @@ module.exports = {
     generate: false,
     routes: async () => {
       const axios = require('axios')
-      const api = '/sitemaps'
+      const api = `${BASE_URL}/sitemaps`
 
       try {
         const { data } = await axios.get(api)

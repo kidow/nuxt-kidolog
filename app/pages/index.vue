@@ -29,7 +29,6 @@ export default {
     }
     try {
       const { data } = await app.$axios(options)
-      console.log(data)
       return { posts: data.posts, nextPosts: data.nextPosts }
     } catch (err) {
       console.log(err)

@@ -3,7 +3,6 @@ const Joi = require('@hapi/joi')
 
 // POST /prt/comments
 module.exports = async (req, res, next) => {
-  console.log(req.body)
   const schema = Joi.object().keys({
     content: Joi.string().required(),
     parentId: Joi.number(),
