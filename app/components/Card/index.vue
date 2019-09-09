@@ -1,9 +1,13 @@
 <template>
   <el-card shadow="hover" :body-style="{ padding: '0px' }">
-    <template @click="$router.push(postUrl)">
-      <img v-if="post.thumbnail" :src="post.thumbnail" alt="thumb" />
-      <div class="no-image" @click="$router.push(postUrl)" v-else>이미지가 없습니다</div>
-    </template>
+    <el-image
+      @click="$router.push(postUrl)"
+      v-if="post.thumbnail"
+      :src="post.thumbnail"
+      fit="cover"
+      style="height: 8.5rem"
+    />
+    <div class="no-image" @click="$router.push(postUrl)" v-else>이미지가 없습니다</div>
     <div class="card__body">
       <nuxt-link class="title" :to="postUrl">{{ post.title }}</nuxt-link>
       <div class="date">{{ $moment(post.createdAt).add(9, 'hour').fromNow() }}</div>
@@ -37,10 +41,8 @@ export default {
   margin: 0 1rem 1.5rem;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  img {
-    width: 100%;
+  .el-image {
     cursor: pointer;
-    height: 8.5rem;
     &:hover {
       opacity: 0.8;
     }
