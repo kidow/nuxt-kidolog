@@ -1,11 +1,15 @@
 <template>
-  <div class="notfound">notfound</div>
+  <vue-error :code="404" message="잘못 찾아오셨네요." />
 </template>
 
 <script>
+import VueError from '~/components/Error'
 export default {
   head: _ => ({
-    title: '죄송합니다. 페이지를 찾을 수 없습니다.'
-  })
+    title: '존재하지 않는 페이지입니다.'
+  }),
+  components: {
+    VueError
+  }
 }
 </script>
