@@ -28,8 +28,11 @@
 </template>
 
 <script>
+let nanobar
 import VueHeader from '~/components/Header'
 import VueNavigation from '~/components/Navigation'
+import Nanobar from 'nanobar'
+import throttle from 'lodash.throttle'
 export default {
   components: {
     VueHeader,
@@ -54,11 +57,29 @@ export default {
       this.$copyText(`${process.env.BASE_URL}${this.$route.path}`)
       this.$message({ message: '성공적으로 복사되었습니다', type: 'success' })
       this.share = false
-    }
+    },
+    setNanobar() {
+      if (this.$device.isMobile) return
+      nanobar = new Nanobar()
+    },
+    onScroll: throttle(async function() {
+      const { scrollHeight, clientHeight } = document.documentElement
+      const { innerWidth, pageYOffset } = window
+      this.percent = (pageYOffset * 100) / (scrollHeight - clientHeight)
+      nanobar.go(this.percent)
+    }, 100)
   },
   data: _ => ({
-    share: false
-  })
+    share: false,
+    percent: 0
+  }),
+  mounted() {
+    this.setNanobar()
+    window.addEventListener('scroll', this.onScroll)
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.onScroll)
+  }
 }
 </script>
 
@@ -80,5 +101,13 @@ export default {
 }
 .fa-twitter {
   color: #00acee;
+}
+</style>
+
+<style lang="scss">
+@import '~/assets/scss/color.scss';
+
+.bar {
+  background: $brand-color !important;
 }
 </style>
