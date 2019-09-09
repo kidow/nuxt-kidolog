@@ -69,7 +69,11 @@ export default {
         const { data } = await this.$axios(options)
         this.$emit('addReply', data, this.index)
         this.comment.loading = false
-        this.$message({ message: '성공적으로 등록되었습니다', type: 'success' })
+        this.$message({
+          message: '성공적으로 등록되었습니다',
+          showClose: true,
+          type: 'success'
+        })
         this.comment.reply = ''
       } catch (err) {
         this.comment.loading = false
@@ -91,7 +95,11 @@ export default {
       try {
         await this.$axios(options)
         this.comment.isEdit = false
-        this.$message({ message: '성공적으로 수정되었습니다', type: 'success' })
+        this.$message({
+          message: '성공적으로 수정되었습니다',
+          showClose: true,
+          type: 'success'
+        })
       } catch (err) {
         console.log(err)
         this.notifyError(err.response.data.message)
@@ -111,6 +119,7 @@ export default {
         .then(_ => {
           this.$message({
             message: '성공적으로 삭제되었습니다',
+            showClose: true,
             type: 'success'
           })
           this.$emit('removeComment', this.index)

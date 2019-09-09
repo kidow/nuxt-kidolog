@@ -98,6 +98,7 @@ export default {
         .then(_ => {
           this.$message({
             message: '성공적으로 삭제되었습니다',
+            showClose: true,
             type: 'success'
           })
           this.$router.push('/')
@@ -123,7 +124,11 @@ export default {
         this.comments.push(data)
         this.loading.comment = false
         this.comment = ''
-        this.$message({ message: '성공적으로 등록되었습니다', type: 'success' })
+        this.$message({
+          message: '성공적으로 등록되었습니다',
+          showClose: true,
+          type: 'success'
+        })
       } catch (err) {
         this.loading.comment = false
         console.log(err)

@@ -1,7 +1,12 @@
 <template>
   <div class="navigation">
-    <i class="fas fa-home" @click="$router.push('/')" :class="{ matched: $route.path === '/' }"></i>
+    <i class="el-icon-house" @click="$router.push('/')" :class="{ matched: $route.path === '/' }"></i>
     <!-- <i class="fas fa-search" @click="search"></i> -->
+    <i
+      class="el-icon-user"
+      @click="$router.push('/post/About-1')"
+      :class="{ matched: $route.path === '/post/About-1' }"
+    ></i>
   </div>
 </template>
 

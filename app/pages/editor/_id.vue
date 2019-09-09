@@ -5,7 +5,14 @@
         <i class="el-icon-back" @click="$router.back()"></i>
       </div>
       <div class="header__input">
-        <input type="text" autofocus autocomplete="off" autocapitalize="off" v-model="title" placeholder="제목을 입력해주세요." />
+        <input
+          type="text"
+          autofocus
+          autocomplete="off"
+          autocapitalize="off"
+          v-model="title"
+          placeholder="제목을 입력해주세요."
+        />
       </div>
       <div class="header__right flex">
         <el-upload
@@ -145,7 +152,7 @@ export default {
       try {
         const { data } = await this.$axios(options)
         const message = params.id ? '수정되었습니다' : '작성되었습니다'
-        this.$message({ message, type: 'success' })
+        this.$message({ message, showClose: true, type: 'success' })
         this.$router.push(`/post/${this.$titleUrl(this.title, data.postId)}`)
       } catch (err) {
         console.log(err)

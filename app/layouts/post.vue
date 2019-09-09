@@ -3,7 +3,7 @@
     <vue-header v-if="$device.isMobile" />
     <el-row class="post-container" :class="{ mobile: $device.isMobile }">
       <el-col :lg="5" :sm="3" :xs="1" style="min-height: 1px">
-        <client-only>
+        <client-only v-if="$device.isMobile">
           <affix relative-element-selector="#content" :scrollAffix="true">
             <div style="position: relative; right: 28px">
               <div>
@@ -78,7 +78,11 @@ export default {
     },
     copyLink() {
       this.$copyText(`${process.env.BASE_URL}${this.$route.path}`)
-      this.$message({ message: '성공적으로 복사되었습니다', type: 'success' })
+      this.$message({
+        message: '성공적으로 복사되었습니다',
+        showClose: true,
+        type: 'success'
+      })
       this.share = false
     },
     setNanobar() {
@@ -98,10 +102,11 @@ export default {
   }),
   mounted() {
     this.setNanobar()
-    window.addEventListener('scroll', this.onScroll)
+    if (!this.$device.isMobile) window.addEventListener('scroll', this.onScroll)
   },
   destroyed() {
-    window.removeEventListener('scroll', this.onScroll)
+    if (!this.$device.isMobile)
+      window.removeEventListener('scroll', this.onScroll)
   }
 }
 </script>

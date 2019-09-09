@@ -11,7 +11,7 @@
         <div class="menu-title">내 계정</div>
         <ul class="menu-list">
           <li class="menu-item" @click="logout">로그아웃</li>
-          <li class="menu-item" @click="$router.push('/editor')">새 글</li>
+          <li class="menu-item" v-if="user.status === 2" @click="$router.push('/editor')">새 글</li>
         </ul>
       </template>
       <template v-else>
@@ -55,12 +55,17 @@ export default {
         await this.$store.dispatch('auth/LOGOUT')
         this.$message({
           message: '로그아웃 되었습니다',
+          showClose: true,
           type: 'success'
         })
         this.$emit('drawer')
       } catch (err) {
         console.log(err)
-        this.$message({ message: err.response.data.message, type: 'error' })
+        this.$message({
+          message: err.response.data.message,
+          showClose: true,
+          type: 'error'
+        })
       }
     }
   },
