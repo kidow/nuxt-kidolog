@@ -1,5 +1,10 @@
 <template>
-  <footer class="flex">Copyright (c) Kidolog.com, All rights reserved.</footer>
+  <footer>
+    <div style="margin: 1rem 0 0.5rem">
+      <nuxt-link to="/privacy">개인정보처리방침</nuxt-link>
+    </div>
+    <div>Copyright (c) Kidolog.com, All rights reserved.</div>
+  </footer>
 </template>
 
 <script>
@@ -15,8 +20,12 @@ footer {
   border-top: 1px solid $oc-gray-3;
   height: 6rem;
   background: white;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  color: $oc-gray-5;
+  vertical-align: middle;
+}
+
+a {
   color: $oc-gray-5;
 }
 </style>

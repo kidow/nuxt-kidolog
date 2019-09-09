@@ -9,18 +9,6 @@
       </div>
       <div class="header__right flex">
         <el-upload
-          :on-success="imageUpload"
-          :before-upload="beforeUpload"
-          action="/prv/posts/image"
-          accept="image/*"
-          name="image"
-          :with-credentials="true"
-          :show-file-list="false"
-        >
-          <el-button plain icon="el-icon-upload2">썸네일</el-button>
-        </el-upload>
-        <div style="width: 0.5rem" />
-        <el-upload
           :on-success="thumbnailUpload"
           :before-upload="beforeUpload"
           action="/prv/posts/thumbnail"
@@ -28,6 +16,20 @@
           name="thumb"
           :with-credentials="true"
           :show-file-list="false"
+          :on-error="uploadError"
+        >
+          <el-button plain icon="el-icon-upload2">썸네일</el-button>
+        </el-upload>
+        <div style="width: 0.5rem" />
+        <el-upload
+          :on-success="imageUpload"
+          :before-upload="beforeUpload"
+          action="/prv/posts/image"
+          accept="image/*"
+          name="image"
+          :with-credentials="true"
+          :show-file-list="false"
+          :on-error="uploadError"
         >
           <el-button plain icon="el-icon-picture">업로드</el-button>
         </el-upload>
@@ -101,6 +103,9 @@ export default {
           '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
         )
       this.thumbnail = thumbnail
+    },
+    uploadError(err) {
+      this.notifyError(JSON.parse(err.message).message)
     },
     beforeUpload(file) {
       const isOver3M = file.size / 1024 / 1024 / 1024 > 3

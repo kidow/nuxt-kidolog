@@ -7,7 +7,11 @@ module.exports = multer({
     s3,
     bucket: process.env.AWS_S3_BUCKET,
     key(req, file, cb) {
-      cb(null, Date.now().toString(36))
+      const { mimetype } = file
+      const type = mimetype
+        .substr(mimetype.lastIndexOf('/'), mimetype.length)
+        .replace('/', '.')
+      cb(null, Date.now().toString(36) + type)
     }
   }),
   limits: { fileSize: 5 * 1024 * 1024 }
