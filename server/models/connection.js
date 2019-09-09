@@ -3,6 +3,7 @@ const {
   MYSQL_HOST,
   MYSQL_USER,
   MYSQL_PASSWORD,
+  MYSQL_HOST_PASSWORD,
   MYSQL_DATABASE,
   MYSQL_PORT,
   NODE_ENV
@@ -11,7 +12,7 @@ const {
 const connection = require('mysql').createConnection({
   host: NODE_ENV === 'development' ? MYSQL_HOST_SANDBOX : MYSQL_HOST,
   user: MYSQL_USER,
-  password: MYSQL_PASSWORD,
+  password: NODE_ENV === 'development' ? MYSQL_PASSWORD : MYSQL_HOST_PASSWORD,
   port: MYSQL_PORT,
   database: MYSQL_DATABASE
 })
