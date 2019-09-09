@@ -134,6 +134,8 @@ export default {
       const options = { data, url, method }
       try {
         const { data } = await this.$axios(options)
+        const message = params.id ? '수정되었습니다' : '작성되었습니다'
+        this.$message({ message, type: 'success' })
         this.$router.push(`/post/${this.$titleUrl(this.title, data.postId)}`)
       } catch (err) {
         console.log(err)

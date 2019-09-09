@@ -19,7 +19,8 @@ export default {
   data: _ => ({
     posts: [],
     offset: 0,
-    search: ''
+    search: '',
+    nextPosts: []
   }),
   async asyncData({ app }) {
     const options = {
@@ -28,13 +29,14 @@ export default {
     }
     try {
       const { data } = await app.$axios(options)
-      return { posts: data }
+      console.log(data)
+      return { posts: data.posts, nextPosts: data.nextPosts }
     } catch (err) {
       console.log(err)
     }
   },
   methods: {
-    async onSearch() {
+    onSearch() {
       this.offset = 0
       this.getData()
     },
@@ -49,12 +51,28 @@ export default {
       }
       try {
         const { data } = await this.$axios(options)
-        this.posts = data
+        this.posts.push(...data.posts)
+        this.nextPosts = data.nextPosts
       } catch (err) {
         console.log(err)
         this.notifyError(err.response.data.message)
       }
-    }
+    },
+    onScroll: throttle(function() {
+      const { scrollHeight, clientHeight } = document.documentElement
+      const { pageYOffset } = window
+      const isScroll = scrollHeight - clientHeight <= pageYOffset + 30
+      if (isScroll && this.nextPosts.length) {
+        this.offset += 6
+        this.getData()
+      }
+    }, 200)
+  },
+  mounted() {
+    window.addEventListener('scroll', this.onScroll)
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.onScroll)
   }
 }
 </script>

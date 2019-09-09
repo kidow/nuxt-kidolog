@@ -1,7 +1,7 @@
 <template>
   <div class="navigation">
     <i class="fas fa-home" @click="$router.push('/')" :class="{ matched: $route.path === '/' }"></i>
-    <i class="fas fa-search" @click="search"></i>
+    <!-- <i class="fas fa-search" @click="search"></i> -->
   </div>
 </template>
 

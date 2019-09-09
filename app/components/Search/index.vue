@@ -5,7 +5,7 @@
       v-model="search"
       autocomplete="off"
       autocapitalize="off"
-      placeholder="태그 검색은 '#' 붙이기"
+      placeholder="'Enter' 키로 검색"
       @keyup.enter="$emit('search')"
     />
   </div>

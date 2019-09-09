@@ -62,7 +62,7 @@ export default {
       if (this.$device.isMobile) return
       nanobar = new Nanobar()
     },
-    onScroll: throttle(async function() {
+    onScroll: throttle(function() {
       const { scrollHeight, clientHeight } = document.documentElement
       const { innerWidth, pageYOffset } = window
       this.percent = (pageYOffset * 100) / (scrollHeight - clientHeight)

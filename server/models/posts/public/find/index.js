@@ -23,16 +23,10 @@ const findById = injection => {
 }
 
 const find = ({ offset, search }) => {
-  let searchSQL = ''
-  if (search) {
-    if (search[0] === '#') {
-      search = search.substr(1, search.length)
-      searchSQL = 'WHERE tags LIKE ?'
-    } else searchSQL = 'WHERE title LIKE ?'
-  }
+  const searchSQL = search ? 'WHERE (tags LIKE ? OR title LIKE ?)' : ''
   const offsetSQL = offset ? 'OFFSET ?' : ''
   let injection = []
-  if (search) injection.push(`%${search}%`)
+  if (search) injection.push(`%${search}%`, `%${search}%`)
   if (offset) injection.push(Number(offset))
   return new Promise((resolve, reject) => {
     const sql = `
@@ -47,6 +41,29 @@ const find = ({ offset, search }) => {
       ${searchSQL}
       LIMIT 6
       ${offsetSQL}
+    `
+    con.query(sql, injection, (err, result) => {
+      if (err) return reject(err)
+
+      resolve(result)
+    })
+  })
+}
+
+const findNext = ({ offset = 0, search }) => {
+  const searchSQL = search ? 'WHERE (tags LIKE ? OR title LIKE ?)' : ''
+  let injection = []
+  if (search) injection.push(`%${search}%`, `%${search}%`)
+  injection.push(Number(offset) + 6)
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT
+        id
+      FROM
+        posts
+      ${searchSQL}
+      LIMIT 1
+      OFFSET ?
     `
     con.query(sql, injection, (err, result) => {
       if (err) return reject(err)
@@ -75,8 +92,10 @@ const findSitemaps = _ => {
     })
   })
 }
+
 module.exports = {
   findById,
   find,
-  findSitemaps
+  findSitemaps,
+  findNext
 }
