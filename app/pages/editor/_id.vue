@@ -5,7 +5,7 @@
         <i class="el-icon-back" @click="$router.back()"></i>
       </div>
       <div class="header__input">
-        <input type="text" v-model="title" placeholder="제목을 입력해주세요." />
+        <input type="text" autofocus autocomplete="off" autocapitalize="off" v-model="title" placeholder="제목을 입력해주세요." />
       </div>
       <div class="header__right flex">
         <el-upload
