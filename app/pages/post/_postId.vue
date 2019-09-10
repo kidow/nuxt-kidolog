@@ -112,7 +112,7 @@ export default {
         url: '/prt/comments',
         method: 'post',
         data: {
-          postId: this.$route.params.postId,
+          postId: this.$sliceParams(this.$route.params.postId),
           content: this.comment,
           userId: this.user.id
         }

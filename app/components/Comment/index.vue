@@ -61,7 +61,7 @@ export default {
         data: {
           content: this.comment.reply,
           parentId: this.comment.id,
-          postId: this.$route.params.postId,
+          postId: this.$sliceParams(this.$route.params.postId),
           userId: this.user.id
         }
       }
