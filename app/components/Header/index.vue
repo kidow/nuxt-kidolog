@@ -28,16 +28,6 @@ export default {
   data: _ => ({
     drawer: false
   }),
-  methods: {
-    OAuthLogin(url) {
-      const { path } = this.$route
-      window.open(
-        url + path,
-        'login',
-        'menubar=1, resizable=1, width=500, height=600'
-      )
-    }
-  },
   computed: {
     ...mapGetters({
       isLoggedIn: 'auth/IS_LOGGED_IN',
