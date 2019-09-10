@@ -3,7 +3,7 @@
     <vue-header v-if="$device.isMobile" />
     <el-row class="post-container" :class="{ mobile: $device.isMobile }">
       <el-col :lg="5" :sm="3" :xs="1" style="min-height: 1px">
-        <client-only v-if="$device.isMobile">
+        <client-only v-if="!$device.isMobile">
           <affix relative-element-selector="#content" :scrollAffix="true">
             <div style="position: relative; right: 28px">
               <div>

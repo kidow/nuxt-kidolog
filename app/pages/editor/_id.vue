@@ -113,7 +113,11 @@ export default {
           '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
         )
       this.thumbnail = thumbnail
-      this.notifySuccess('썸네일이 업로드되었습니다')
+      this.$message({
+        message: '썸네일이 업로드되었습니다',
+        type: 'success',
+        showClose: true
+      })
     },
     uploadError(err) {
       this.notifyError(JSON.parse(err.message).message)
@@ -151,6 +155,11 @@ export default {
       const options = { data, url, method }
       try {
         const { data } = await this.$axios(options)
+        this.title = ''
+        this.content = ''
+        this.thumbnail = ''
+        this.tags = ''
+        this.intro = ''
         const message = params.id ? '수정되었습니다' : '작성되었습니다'
         this.$message({ message, showClose: true, type: 'success' })
         this.$router.push(`/post/${this.$titleUrl(this.title, data.postId)}`)
