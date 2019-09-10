@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
   })
   const { error } = Joi.validate(req.body, schema)
   if (error)
-    return NODE_ENV === 'production' ? next(error) : res.sendStatus(400)
+    return NODE_ENV === 'development' ? next(error) : res.sendStatus(400)
 
   const { commentId } = req.params
   const { userId } = req.body
