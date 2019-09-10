@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
       options = { scope: ['email'] }
       break
     case 'twitter':
-      options = { scope: ['email'] }
+      options = { scope: ['email'], session: true }
       break
     case 'twitter':
       options = { scope: ['email'] }

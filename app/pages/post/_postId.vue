@@ -7,9 +7,7 @@
         <el-button @click="$router.push(`/editor/${post.id}`)">수정</el-button>
         <el-button @click="removePost">삭제</el-button>
       </div>
-      <div
-        class="content-date"
-      >{{ $moment(post.createdAt).add(9, 'hour').format('YYYY년 MM월 DD일 hh:mm:ss') }}</div>
+      <div class="content-date">{{ $moment(post.createdAt).format('YYYY년 MM월 DD일 hh:mm:ss') }}</div>
       <div class="content-body">
         <vue-marked :markdown="post.content" />
       </div>

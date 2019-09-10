@@ -10,7 +10,7 @@
     <div class="no-image" @click="$router.push(postUrl)" v-else>이미지가 없습니다</div>
     <div class="card__body">
       <nuxt-link class="title" :to="postUrl">{{ post.title }}</nuxt-link>
-      <div class="date">{{ $moment(post.createdAt).add(9, 'hour').fromNow() }}</div>
+      <div class="date">{{ $moment(post.createdAt).fromNow() }}</div>
     </div>
     <div class="card__desc">{{ post.intro }}</div>
   </el-card>

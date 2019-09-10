@@ -13,9 +13,11 @@ module.exports = async (req, res, next) => {
   const { error } = Joi.validate(req.body, schema)
   if (error) return next(error)
 
+  const { title } = req.body
+
   try {
     const { insertId } = await Post.private.create(req.body)
-    res.status(200).json({ postId: insertId })
+    res.status(200).json({ postId: insertId, title })
   } catch (err) {
     next(err)
   }

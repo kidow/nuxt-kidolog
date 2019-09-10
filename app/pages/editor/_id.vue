@@ -162,7 +162,7 @@ export default {
         this.intro = ''
         const message = params.id ? '수정되었습니다' : '작성되었습니다'
         this.$message({ message, showClose: true, type: 'success' })
-        this.$router.push(`/post/${this.$titleUrl(this.title, data.postId)}`)
+        this.$router.push(`/post/${this.$titleUrl(data.title, data.postId)}`)
       } catch (err) {
         console.log(err)
         this.loading = false

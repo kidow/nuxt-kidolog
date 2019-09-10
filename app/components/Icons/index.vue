@@ -15,9 +15,7 @@ export default {
   methods: {
     OAuthLogin(url) {
       const { path, query } = this.$route
-      if (path !== '/' && !query.search && !query.offset)
-        url += `?redirect=${path}`
-      location.href = url
+      location.href = `${url}?redirect=${path}`
     }
   }
 }
