@@ -20,7 +20,13 @@
           <vue-icons v-if="!isLoggedIn" />
         </h3>
 
-        <el-input type="textarea" v-model="comment" :rows="3" :placeholder="placeholder" />
+        <el-input
+          type="textarea"
+          v-model="comment"
+          :rows="3"
+          :disabled="!isLoggedIn"
+          :placeholder="placeholder"
+        />
         <div class="flex" style="justify-content: flex-end; margin: 1rem 0">
           <el-button
             size="small"
