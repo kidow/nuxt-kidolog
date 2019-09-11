@@ -15,7 +15,7 @@ module.exports = session({
   secret: COOKIE_SECRET,
   cookie: {
     httpOnly: true,
-    secure: 'auto',
+    secure: false,
     maxAge: 1000 * 60 * 60 * 24 * 7
   },
   store: new RedisStore({
