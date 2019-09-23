@@ -77,7 +77,7 @@ export default {
       const { pageYOffset } = window
       const isScroll = scrollHeight - clientHeight <= pageYOffset + 30
       if (isScroll && this.nextPosts.length) {
-        this.offset += 6
+        this.offset += 15
         this.getData()
       }
     }, 200)

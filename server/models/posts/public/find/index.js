@@ -43,7 +43,7 @@ const find = ({ offset, search }) => {
       ${searchSQL}
       ORDER BY
         createdAt DESC
-      LIMIT 6
+      LIMIT 15
       ${offsetSQL}
     `
     con.query(sql, injection, (err, result) => {
