@@ -10,7 +10,9 @@
     <div class="no-image" @click="$router.push(postUrl)" v-else>이미지가 없습니다</div>
     <div class="card__body">
       <nuxt-link class="title" :to="postUrl">{{ post.title }}</nuxt-link>
-      <div class="date">{{ $moment(post.createdAt).fromNow() }}</div>
+      <el-badge :hidden="!post.commentCount" is-dot>
+        <div class="date">{{ $moment(post.createdAt).fromNow() }}</div>
+      </el-badge>
     </div>
     <div class="card__desc">{{ post.intro }}</div>
   </el-card>
@@ -70,9 +72,10 @@ export default {
     .title {
       font-size: 1.4rem;
       font-weight: bold;
+      display: block;
+      margin-bottom: 0.5rem;
     }
     .date {
-      margin-top: 0.5rem;
       color: $oc-gray-5;
       font-size: 0.9rem;
     }

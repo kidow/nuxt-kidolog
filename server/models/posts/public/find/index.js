@@ -24,7 +24,7 @@ const findById = injection => {
 }
 
 const find = ({ offset, search }) => {
-  const searchSQL = search ? 'WHERE (tags LIKE ? OR title LIKE ?)' : ''
+  const searchSQL = search ? 'WHERE (p.tags LIKE ? OR p.title LIKE ?)' : ''
   const offsetSQL = offset ? 'OFFSET ?' : ''
   let injection = []
   if (search) injection.push(`%${search}%`, `%${search}%`)
@@ -32,17 +32,29 @@ const find = ({ offset, search }) => {
   return new Promise((resolve, reject) => {
     const sql = `
       SELECT
-        id,
-        thumbnail,
-        title,
-        createdAt,
-        content,
-        intro
+        p.id,
+        p.thumbnail,
+        p.title,
+        p.createdAt,
+        p.content,
+        p.intro,
+        (
+          SELECT
+            COUNT(comments.id)
+          FROM
+            posts
+          LEFT JOIN
+            comments
+          ON
+            comments.postId = posts.id
+          WHERE
+            posts.id = p.id
+        ) AS commentCount
       FROM
-        posts
+        posts p
       ${searchSQL}
       ORDER BY
-        createdAt DESC
+        p.createdAt DESC
       LIMIT 15
       ${offsetSQL}
     `
