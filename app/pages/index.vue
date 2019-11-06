@@ -32,6 +32,7 @@ export default {
       return { posts: data.posts, nextPosts: data.nextPosts }
     } catch (err) {
       console.log(err)
+      app.$sentry.captureException(err)
     }
   },
   methods: {

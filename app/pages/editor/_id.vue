@@ -205,6 +205,7 @@ export default {
       }
     } catch (err) {
       console.log(err)
+      app.$sentry.captureException(err)
     }
   },
   head() {

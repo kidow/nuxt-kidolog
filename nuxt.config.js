@@ -135,12 +135,12 @@ module.exports = {
   modules: [
     '@nuxtjs/font-awesome',
     '@nuxtjs/axios',
+    '@nuxtjs/sentry',
     '@nuxtjs/pwa',
     'nuxt-device-detect',
     ['@nuxtjs/moment', { locales: ['ko'], defaultLocales: 'ko' }],
     ['@nuxtjs/sitemap']
   ],
-
   axios: {
     baseURL: BASE_URL,
     credentials: true,
@@ -155,6 +155,10 @@ module.exports = {
         'application/x-www-form-urlencoded;application/json'
       return config
     }
+  },
+  sentry: {
+    dsn: 'https://cc90a952aaa547d98cf61d1186f0355f@sentry.io/1809726',
+    config: {}
   },
   manifest: {
     name: DESCRIPTION,
