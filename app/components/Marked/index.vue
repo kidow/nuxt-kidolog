@@ -77,14 +77,11 @@ export default {
     }
     margin-left: 0;
     margin-right: 0;
-    height: 60px;
     display: flex;
     align-items: center;
-    p {
-      margin: 0;
-    }
   }
   p {
+    margin: 27px 0 15px;
     word-break: keep-all;
   }
 
@@ -144,7 +141,7 @@ export default {
 
   img {
     width: 100%;
-    margin: 4rem auto;
+    margin: 1rem auto;
     display: block;
   }
 }

@@ -93,7 +93,7 @@ export default {
       const { scrollHeight, clientHeight } = document.documentElement
       const { innerWidth, pageYOffset } = window
       this.percent = (pageYOffset * 100) / (scrollHeight - clientHeight)
-      nanobar.go(this.percent)
+      nanobar.go(this.percent - 0.01)
     }, 100)
   },
   data: _ => ({

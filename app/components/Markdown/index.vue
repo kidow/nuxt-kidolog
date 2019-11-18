@@ -3,11 +3,25 @@
     <div class="markdown__code-editor flex" ref="editor" />
     <div class="markdown__tags flex">
       <div class="markdown__description">소개글</div>
-      <input type="text" name="intro" autocomplete="off" autocapitalize="off" v-model="intro" placeholder="소개글을 입력하세요." />
+      <input
+        type="text"
+        name="intro"
+        autocomplete="off"
+        autocapitalize="off"
+        v-model="intro"
+        placeholder="소개글을 입력하세요."
+      />
     </div>
     <div class="markdown__tags flex">
       <div class="markdown__description">태그</div>
-      <input type="text" name="tags" autocomplete="off" autocapitalize="off" v-model="tags" placeholder="태그로 입력하세요 (쉼표로 구분)" />
+      <input
+        type="text"
+        name="tags"
+        autocomplete="off"
+        autocapitalize="off"
+        v-model="tags"
+        placeholder="태그로 입력하세요 (쉼표로 구분)"
+      />
     </div>
   </div>
 </template>

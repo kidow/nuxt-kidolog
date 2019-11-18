@@ -139,7 +139,13 @@ module.exports = {
     '@nuxtjs/pwa',
     'nuxt-device-detect',
     ['@nuxtjs/moment', { locales: ['ko'], defaultLocales: 'ko' }],
-    ['@nuxtjs/sitemap']
+    ['@nuxtjs/sitemap'],
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-152828817-1'
+      }
+    ]
   ],
   axios: {
     baseURL: BASE_URL,
