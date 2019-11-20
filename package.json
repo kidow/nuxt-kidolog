@@ -6,9 +6,12 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "prebuild": "rm -rf .nuxt",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "predeploy": "sudo pm2 kill",
+    "deploy": "sudo rm -rf .nuxt && nuxt build && sudo pm2 start npm -- start && sudo pm2 logs"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.1",
