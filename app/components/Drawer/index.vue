@@ -3,7 +3,7 @@
     size="80%"
     title="Kidolog"
     direction="rtl"
-    :visible.sync="drawer"
+    :visible.sync="open"
     :before-close="_ => $emit('drawer')"
   >
     <div class="auth__container">
@@ -38,7 +38,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'VueDrawer',
   props: {
-    drawer: {
+    open: {
       type: Boolean,
       default: false
     }

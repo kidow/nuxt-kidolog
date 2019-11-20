@@ -2,8 +2,8 @@
   <header class="flex">
     <vue-logo />
     <div class="mobile" v-if="$device.isMobile">
-      <i class="fas fa-bars" @click="drawer = true"></i>
-      <vue-drawer :drawer="drawer" @drawer="drawer = false" />
+      <i class="fas fa-bars" @click="open = true"></i>
+      <vue-drawer :open="open" @drawer="open = false" />
     </div>
     <vue-icons v-else-if="!isLoggedIn" />
     <div class="icons" v-else>
@@ -26,7 +26,7 @@ export default {
     VueDrawer
   },
   data: _ => ({
-    drawer: false
+    open: false
   }),
   computed: {
     ...mapGetters({

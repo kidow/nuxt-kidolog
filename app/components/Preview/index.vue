@@ -20,6 +20,10 @@ export default {
     markdown: {
       type: String,
       default: ''
+    },
+    noPadding: {
+      type: Boolean,
+      default: false
     }
   }
 }
