@@ -11,7 +11,6 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('prismjs/components/prism-bash.min.js')
   require('prismjs/components/prism-javascript.min.js')
   require('prismjs/components/prism-typescript.min.js')
-  require('prismjs/components/prism-json.min.js')
   require('prismjs/components/prism-jsx.min.js')
   require('prismjs/components/prism-css.min.js')
   require('prismjs/components/prism-markdown.min.js')
@@ -21,13 +20,12 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
 
 import 'prismjs/themes/prism-tomorrow.css'
 import marked from 'marked'
+
 export default {
   name: 'VueMarked',
   data() {
     return {
-      html: this.markdown
-        ? marked(this.markdown, { break: true, sanitize: true })
-        : ''
+      html: ''
     }
   },
   async mounted() {
@@ -56,9 +54,6 @@ export default {
         sanitize: true
       })
     }
-  },
-  updated() {
-    this.renderMarkdown()
   }
 }
 </script>

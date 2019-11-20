@@ -58,6 +58,15 @@
               <ul class="menu-list">
                 <li class="menu-item" @click="openPreview">미리보기</li>
               </ul>
+              <div class="menu-title">확장자</div>
+              <ul class="menu-list">
+                <el-tag
+                  type="info"
+                  v-for="(extension,i ) in  extensions"
+                  :key="i"
+                  style="margin: 0 4px 4px"
+                >{{ extension }}</el-tag>
+              </ul>
             </div>
           </vue-drawer-editor>
         </template>
@@ -245,29 +254,43 @@ export default {
     }),
     submitText() {
       return this.$route.params.id ? '수정하기' : '작성하기'
+    },
+    extensions() {
+      return [
+        'json',
+        'nginx',
+        'bash',
+        'javascript',
+        'typescript',
+        'jsx',
+        'css',
+        'markdown',
+        'scss',
+        'sql'
+      ]
     }
   },
-  // middleware: 'isLoggedIn',
+  middleware: 'isLoggedIn',
   async asyncData({ params, app, store, redirect }) {
     if (!params.id) return
     const user = store.getters['auth/GET_USER']
-    // if (user.status !== 2) return redirect('/')
+    if (user.status !== 2) return redirect('/')
     const options = {
       url: `/posts/${params.id}`,
       method: 'get'
     }
     try {
-      // const {
-      //   data: { post }
-      // } = await app.$axios(options)
-      // if (!post.title) return redirect('/')
-      // return {
-      //   title: post.title,
-      //   markdown: post.content,
-      //   tags: post.tags,
-      //   thumbnail: post.thumbnail,
-      //   intro: post.intro
-      // }
+      const {
+        data: { post }
+      } = await app.$axios(options)
+      if (!post.title) return redirect('/')
+      return {
+        title: post.title,
+        markdown: post.content,
+        tags: post.tags,
+        thumbnail: post.thumbnail,
+        intro: post.intro
+      }
     } catch (err) {
       console.log(err)
       app.$sentry.captureException(err)
