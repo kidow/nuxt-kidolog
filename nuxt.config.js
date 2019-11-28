@@ -1,4 +1,4 @@
-const { NODE_ENV, SENTRY_NODE } = process.env
+const { NODE_ENV, SENTRY_DSN } = process.env
 const TITLE = 'Kidolog'
 const DESCRIPTION = 'Kidow Blog'
 const IMAGE =
@@ -163,7 +163,7 @@ module.exports = {
     }
   },
   sentry: {
-    dsn: SENTRY_NODE,
+    dsn: SENTRY_DSN,
     config: {}
   },
   manifest: {
