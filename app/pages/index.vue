@@ -1,8 +1,8 @@
 <template>
   <div class="main__container">
-    <vue-search @searchChange="val => search = val" @search="onSearch" />
+    <vue-search @searchChange="val => (search = val)" @search="onSearch" />
     <div class="post-list">
-      <vue-card v-for="post in posts" :key="post.uuid" :post="post" />
+      <!-- <vue-card v-for="post in posts" :key="post.uuid" :post="post" /> -->
     </div>
   </div>
 </template>
@@ -28,11 +28,10 @@ export default {
       method: 'get'
     }
     try {
-      const { data } = await app.$axios(options)
-      return { posts: data.posts, nextPosts: data.nextPosts }
+      // const { data } = await app.$axios(options)
+      // return { posts: data.posts, nextPosts: data.nextPosts }
     } catch (err) {
       console.log(err)
-      app.$sentry.captureException(err)
     }
   },
   methods: {
@@ -65,9 +64,9 @@ export default {
         }
       }
       try {
-        const { data } = await this.$axios(options)
-        this.posts.push(...data.posts)
-        this.nextPosts = data.nextPosts
+        // const { data } = await this.$axios(options)
+        // this.posts.push(...data.posts)
+        // this.nextPosts = data.nextPosts
       } catch (err) {
         console.log(err)
         this.notifyError(err.response.data.message)
@@ -79,7 +78,7 @@ export default {
       const isScroll = scrollHeight - clientHeight <= pageYOffset + 30
       if (isScroll && this.nextPosts.length) {
         this.offset += 15
-        this.getData()
+        // this.getData()
       }
     }, 200)
   },

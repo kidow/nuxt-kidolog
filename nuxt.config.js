@@ -1,4 +1,17 @@
-const { NODE_ENV, SENTRY_DSN } = process.env
+require('dotenv').config()
+const {
+  NODE_ENV,
+  SENTRY_DSN,
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+  FIREBASE_STORAGE_URL,
+  FIREBASE_MEASUREMENT_ID
+} = process.env
 const TITLE = 'Kidolog'
 const DESCRIPTION = 'Kidow Blog'
 const IMAGE =
@@ -96,7 +109,18 @@ module.exports = {
       }
     ]
   },
-  env: { BASE_URL },
+  env: {
+    BASE_URL,
+    FIREBASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN,
+    FIREBASE_DATABASE_URL,
+    FIREBASE_PROJECT_ID,
+    FIREBASE_STORAGE_BUCKET,
+    FIREBASE_MESSAGING_SENDER_ID,
+    FIREBASE_APP_ID,
+    FIREBASE_STORAGE_URL,
+    FIREBASE_MEASUREMENT_ID
+  },
   loading: { color: COLOR },
 
   css: [{ src: '~/assets/scss/main.scss', lang: 'scss' }],
@@ -105,7 +129,8 @@ module.exports = {
     '@/plugins/element-ui',
     { src: '~/plugins/vue-clipboard2', ssr: false },
     { src: '~/plugins/vue-custom', ssr: true },
-    { src: '~/plugins/vue-affix', ssr: false }
+    { src: '~/plugins/vue-affix', ssr: false },
+    '@/plugins/firebase'
   ],
   sitemap: {
     path: '/sitemap.xml',
@@ -126,8 +151,6 @@ module.exports = {
     }
   },
   modules: [
-    '@nuxtjs/font-awesome',
-    '@nuxtjs/sentry',
     '@nuxtjs/pwa',
     '@nuxtjs/device',
     ['@nuxtjs/moment', { locales: ['ko'], defaultLocales: 'ko' }],
@@ -139,10 +162,6 @@ module.exports = {
       }
     ]
   ],
-  sentry: {
-    dsn: SENTRY_DSN,
-    config: {}
-  },
   manifest: {
     name: DESCRIPTION,
     short_name: TITLE,
