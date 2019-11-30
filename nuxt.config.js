@@ -88,18 +88,11 @@ module.exports = {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css?family=Noto+Serif+KR:500,700&subset=korean'
-      },
+      }
+    ],
+    script: [
       {
-        rel: 'stylesheet',
-        href: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
-        integrity:
-          'sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf',
-        crossorigin: 'anonymous'
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.31.0/d2coding.css'
+        src: 'https://use.fontawesome.com/releases/v5.11.2/js/all.js'
       }
     ]
   },
@@ -121,12 +114,12 @@ module.exports = {
     gzip: true,
     generate: false,
     routes: async () => {
-      const axios = require('axios')
+      // const axios = require('axios')
       const api = `${BASE_URL}/sitemaps`
 
       try {
-        const { data } = await axios.get(api)
-        return data
+        // const { data } = await axios.get(api)
+        // return data
       } catch (err) {
         console.error('failed to generate sitemap.', err)
       }
@@ -134,10 +127,9 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/font-awesome',
-    '@nuxtjs/axios',
     '@nuxtjs/sentry',
     '@nuxtjs/pwa',
-    'nuxt-device-detect',
+    '@nuxtjs/device',
     ['@nuxtjs/moment', { locales: ['ko'], defaultLocales: 'ko' }],
     ['@nuxtjs/sitemap'],
     [
@@ -147,21 +139,6 @@ module.exports = {
       }
     ]
   ],
-  axios: {
-    baseURL: BASE_URL,
-    credentials: true,
-    proxy: false,
-    debug: false,
-    retry: {
-      retries: NODE_ENV === 'production' ? 3 : 0
-    },
-    requestInterceptor: config => {
-      config.headers.common['Authorization'] = ''
-      config.headers.common['Content-Type'] =
-        'application/x-www-form-urlencoded;application/json'
-      return config
-    }
-  },
   sentry: {
     dsn: SENTRY_DSN,
     config: {}

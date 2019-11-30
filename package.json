@@ -13,7 +13,7 @@
   "dependencies": {
     "@hapi/joi": "^15.1.1",
     "@nuxtjs/axios": "^5.3.6",
-    "@nuxtjs/font-awesome": "^1.0.4",
+    "@nuxtjs/device": "^1.2.4",
     "@nuxtjs/google-analytics": "^2.2.1",
     "@nuxtjs/moment": "^1.3.0",
     "@nuxtjs/pwa": "^3.0.0-0",
