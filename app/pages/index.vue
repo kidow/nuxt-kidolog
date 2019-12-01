@@ -1,8 +1,8 @@
 <template>
   <div class="main__container">
-    <vue-search @searchChange="val => (search = val)" @search="onSearch" />
+    <!-- <vue-search @searchChange="val => (search = val)" @search="onSearch" /> -->
     <div class="post-list">
-      <!-- <vue-card v-for="post in posts" :key="post.uuid" :post="post" /> -->
+      <vue-card v-for="post in posts" :key="post.uuid" :post="post" />
     </div>
   </div>
 </template>
@@ -23,13 +23,19 @@ export default {
     nextPosts: []
   }),
   async asyncData({ app }) {
-    const options = {
-      url: '/posts',
-      method: 'get'
-    }
     try {
+      const docRef = await app.$db.collection('posts').get()
+      const posts = []
+      docRef.forEach(doc => {
+        const data = doc.data()
+        data.id = doc.id
+        data.createdAt = data.createdAt.toDate()
+        posts.push(data)
+      })
+      console.log('posts: ', posts)
       // const { data } = await app.$axios(options)
-      // return { posts: data.posts, nextPosts: data.nextPosts }
+      // return { posts, nextPosts: data.nextPosts }
+      return { posts }
     } catch (err) {
       console.log(err)
     }
@@ -37,39 +43,39 @@ export default {
   methods: {
     async onSearch() {
       this.offset = 0
-      const options = {
-        url: '/posts',
-        method: 'get',
-        params: {
-          search: this.search,
-          offset: this.offset
-        }
-      }
+      // const options = {
+      //   url: '/posts',
+      //   method: 'get',
+      //   params: {
+      //     search: this.search,
+      //     offset: this.offset
+      //   }
+      // }
       try {
         const { data } = await this.$axios(options)
         this.posts = data.posts
         this.nextPosts = data.nextPosts
       } catch (err) {
         console.log(err)
-        this.notifyError(err.response.data.message)
+        this.notifyError()
       }
     },
     async getData() {
-      const options = {
-        url: '/posts',
-        method: 'get',
-        params: {
-          search: this.search,
-          offset: this.offset
-        }
-      }
+      // const options = {
+      //   url: '/posts',
+      //   method: 'get',
+      //   params: {
+      //     search: this.search,
+      //     offset: this.offset
+      //   }
+      // }
       try {
         // const { data } = await this.$axios(options)
         // this.posts.push(...data.posts)
         // this.nextPosts = data.nextPosts
       } catch (err) {
         console.log(err)
-        this.notifyError(err.response.data.message)
+        this.notifyError()
       }
     },
     onScroll: throttle(function() {

@@ -23,6 +23,9 @@ export default {
     VueHeader,
     VueFooter,
     VueNavigation
+  },
+  async created() {
+    if (process.client) await this.$store.dispatch('auth/ME')
   }
 }
 </script>

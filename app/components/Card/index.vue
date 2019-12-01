@@ -7,12 +7,12 @@
       fit="cover"
       style="height: 8.5rem"
     />
-    <div class="no-image" @click="$router.push(postUrl)" v-else>이미지가 없습니다</div>
+    <div class="no-image" @click="$router.push(postUrl)" v-else>
+      이미지가 없습니다
+    </div>
     <div class="card__body">
       <nuxt-link class="title" :to="postUrl">{{ post.title }}</nuxt-link>
-      <el-badge :hidden="!post.commentCount" is-dot>
-        <div class="date">{{ $moment(post.createdAt).fromNow() }}</div>
-      </el-badge>
+      <div class="date">{{ $moment(post.createdAt).fromNow() }}</div>
     </div>
     <div class="card__desc">{{ post.intro }}</div>
   </el-card>

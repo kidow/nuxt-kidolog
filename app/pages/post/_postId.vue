@@ -1,13 +1,18 @@
 <template>
   <div>
-    <vue-logo v-if="!$device.isMobile" style="padding-left: 1rem; font-size: 2rem" />
-    <div class="content__container" :class="{ mobile: !$device.isMobile}">
+    <vue-logo
+      v-if="!$device.isMobile"
+      style="padding-left: 1rem; font-size: 2rem"
+    />
+    <div class="content__container" :class="{ mobile: !$device.isMobile }">
       <div class="content-title">{{ post.title }}</div>
       <div class="content-buttons" v-if="isLoggedIn && user.status === 2">
         <el-button @click="$router.push(`/editor/${post.id}`)">수정</el-button>
         <el-button @click="removePost">삭제</el-button>
       </div>
-      <div class="content-date">{{ $moment(post.createdAt).format('YYYY년 MM월 DD일 hh:mm:ss') }}</div>
+      <div class="content-date">
+        {{ $moment(post.createdAt).format('YYYY년 MM월 DD일 hh:mm:ss') }}
+      </div>
       <div class="content-body">
         <vue-marked :markdown="post.content" />
       </div>
@@ -35,7 +40,8 @@
             v-if="isLoggedIn"
             :disabled="!comment"
             @click="submitComment"
-          >댓글 등록</el-button>
+            >댓글 등록</el-button
+          >
         </div>
         <vue-comment
           v-for="(comment, index) in comments"
@@ -89,44 +95,57 @@ export default {
   }),
   methods: {
     removePost() {
-      const options = {
-        url: `/prv/posts/${this.$sliceParams(this.$route.params.postId)}`,
-        method: 'delete'
-      }
+      // const options = {
+      //   url: `/prv/posts/${this.$sliceParams(this.$route.params.postId)}`,
+      //   method: 'delete'
+      // }
+      const that = this
       this.$confirm('정말 삭제하시겠습니까?', '경고', {
         confirmButtonText: '예',
         cancelButtonText: '아니오',
         type: 'warning'
       })
-        .then(_ => this.$axios(options))
+        .then(_ =>
+          that.$db
+            .collection('posts')
+            .doc(this.$sliceParams(this.$route.params.postId))
+            .delete()
+        )
         .then(_ => {
-          this.$message({
+          that.$message({
             message: '성공적으로 삭제되었습니다',
             showClose: true,
             type: 'success'
           })
-          this.$router.push('/')
+          that.$router.push('/')
         })
         .catch(err => {
           console.log(err)
-          this.notifyError(err.response.data.message)
+          that.notifyError()
         })
     },
     async submitComment() {
       this.loading.comment = true
-      const options = {
-        url: '/prt/comments',
-        method: 'post',
-        data: {
-          postId: this.$sliceParams(this.$route.params.postId),
-          content: this.comment,
-          userId: this.user.id
-        }
+      // const options = {
+      //   url: '/prt/comments',
+      //   method: 'post',
+      //   data: {
+      //     postId: this.$sliceParams(this.$route.params.postId),
+      //     content: this.comment,
+      //     userId: this.user.id
+      //   }
+      // }
+      const data = {
+        userId: this.user.uid,
+        postId: this.$sliceParams(this.$route.params.postId),
+        content: this.comment,
+        createdAt: new Date(),
+        parentId: null
       }
       try {
-        const { data } = await this.$axios(options)
+        await this.$db.collection('comments').add(data)
+        // const { data } = await this.$axios(options)
         this.comments.push(data)
-        this.loading.comment = false
         this.comment = ''
         this.$message({
           message: '성공적으로 등록되었습니다',
@@ -134,9 +153,10 @@ export default {
           type: 'success'
         })
       } catch (err) {
-        this.loading.comment = false
         console.log(err)
-        this.notifyError(err.response.data.message)
+        this.notifyError()
+      } finally {
+        this.loading.comment = false
       }
     },
     replyMode(comment) {
@@ -152,17 +172,24 @@ export default {
   async asyncData({ app, params }) {
     const sliceParams = paramsId =>
       paramsId.slice(paramsId.lastIndexOf('-') + 1, paramsId.length)
-    const options = {
-      url: `/posts/${sliceParams(params.postId)}`,
-      method: 'get'
-    }
+    // const options = {
+    //   url: `/posts/${sliceParams(params.postId)}`,
+    //   method: 'get'
+    // }
     try {
-      const { data } = await app.$axios(options)
-      if (data.post.tags) data.post.tags = data.post.tags.split(', ')
-      return { post: data.post, comments: data.comments }
+      // const { data } = await app.$axios(options)
+      const docRef = await app.$db
+        .collection('posts')
+        .doc(sliceParams(params.postId))
+      const doc = await docRef.get()
+      const post = doc.data()
+      post.createdAt = post.createdAt.toDate()
+      return { post }
+      // if (data.post.tags) data.post.tags = data.post.tags.split(', ')
+      // return { post: data.post, comments: data.comments }
     } catch (err) {
       console.log(err)
-      app.$sentry.captureException(err)
+      // app.$sentry.captureException(err)
     }
   },
   head() {

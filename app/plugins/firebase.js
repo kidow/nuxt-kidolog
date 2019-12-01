@@ -12,7 +12,6 @@ export default (ctx, inject) => {
     FIREBASE_STORAGE_BUCKET,
     FIREBASE_MESSAGING_SENDER_ID,
     FIREBASE_APP_ID,
-    FIREBASE_STORAGE_URL,
     FIREBASE_MEASUREMENT_ID
   } = ctx.env
   if (!firebase.apps.length) {
@@ -29,7 +28,21 @@ export default (ctx, inject) => {
     firebase.initializeApp(config)
   }
 
+  if (process.client) {
+    firebase
+      .auth()
+      .getRedirectResult()
+      .then(result => {
+        console.log('result', result)
+        if (!result.user) return
+        ctx.store.dispatch('auth/ME')
+      })
+      .catch(err => {
+        console.log('err: ', err)
+      })
+  }
+
   inject('auth', firebase.auth)
   inject('db', firebase.firestore())
-  inject('storage', firebase.app().storage(FIREBASE_STORAGE_URL))
+  inject('storage', firebase.storage)
 }

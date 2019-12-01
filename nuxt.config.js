@@ -101,11 +101,18 @@ module.exports = {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css?family=Noto+Serif+KR:500,700&subset=korean'
-      }
-    ],
-    script: [
+      },
       {
-        src: 'https://use.fontawesome.com/releases/v5.11.2/js/all.js'
+        rel: 'stylesheet',
+        href: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+        integrity:
+          'sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf',
+        crossorigin: 'anonymous'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.31.0/d2coding.css'
       }
     ]
   },

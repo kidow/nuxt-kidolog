@@ -107,6 +107,9 @@ export default {
   destroyed() {
     if (!this.$device.isMobile)
       window.removeEventListener('scroll', this.onScroll)
+  },
+  async created() {
+    if (process.client) await this.$store.dispatch('auth/ME')
   }
 }
 </script>

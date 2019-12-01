@@ -7,8 +7,15 @@
     </div>
     <vue-icons v-else-if="!isLoggedIn" />
     <div class="icons" v-else>
-      <i class="fas fa-code" v-if="user.status === 2" @click="$router.push('/editor')"></i>
-      <i class="fas fa-sign-out-alt" @click="$store.dispatch('auth/LOGOUT')"></i>
+      <i
+        class="fas fa-code"
+        v-if="user.email === 'wcgo2ling@gmail.com'"
+        @click="$router.push('/editor')"
+      ></i>
+      <i
+        class="fas fa-sign-out-alt"
+        @click="$store.dispatch('auth/LOGOUT')"
+      ></i>
     </div>
   </header>
 </template>

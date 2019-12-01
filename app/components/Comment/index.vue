@@ -1,7 +1,11 @@
 <template>
   <div class="comment__container" :class="{ parent: comment.parentId }">
     <div class="comment__head flex">
-      <img v-if="comment.profileUrl" :src="comment.profileUrl" :alt="comment.displayName" />
+      <img
+        v-if="comment.profileUrl"
+        :src="comment.profileUrl"
+        :alt="comment.displayName"
+      />
       <img
         v-else
         src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
@@ -13,17 +17,33 @@
       </div>
     </div>
     <div class="comment__body">
-      <el-input type="textarea" v-model="comment.content" v-if="comment.isEdit" :rows="3" />
+      <el-input
+        type="textarea"
+        v-model="comment.content"
+        v-if="comment.isEdit"
+        :rows="3"
+      />
       <template v-else>{{ comment.content }}</template>
     </div>
     <div class="reply__container">
-      <span v-if="!comment.parentId" @click="$emit('replyMode', comment)">답글</span>
+      <span v-if="!comment.parentId" @click="$emit('replyMode', comment)"
+        >답글</span
+      >
       <span v-if="comment.userId === user.id" @click="editComment">수정</span>
-      <span v-if="comment.userId === user.id && comment.isEdit" @click="comment.isEdit = false">취소</span>
+      <span
+        v-if="comment.userId === user.id && comment.isEdit"
+        @click="comment.isEdit = false"
+        >취소</span
+      >
       <span v-if="comment.userId === user.id" @click="removeComment">삭제</span>
     </div>
     <div class="reply__input" v-if="comment.isReply">
-      <el-input type="textarea" :rows="3" style="margin-top: 8px" v-model="comment.reply" />
+      <el-input
+        type="textarea"
+        :rows="3"
+        style="margin-top: 8px"
+        v-model="comment.reply"
+      />
       <div class="reply__button">
         <el-button
           type="primary"
@@ -31,7 +51,8 @@
           :disabled="!comment.reply"
           @click="submitReply"
           size="small"
-        >답글 등록</el-button>
+          >답글 등록</el-button
+        >
       </div>
     </div>
   </div>
@@ -79,7 +100,7 @@ export default {
         this.comment.loading = false
         console.log(err)
         this.comment.reply = ''
-        this.notifyError(err.response.data.message)
+        this.notifyError()
       }
     },
     async editComment() {
@@ -102,7 +123,7 @@ export default {
         })
       } catch (err) {
         console.log(err)
-        this.notifyError(err.response.data.message)
+        this.notifyError()
       }
     },
     removeComment() {
@@ -126,7 +147,7 @@ export default {
         })
         .catch(err => {
           console.log(err)
-          this.notifyError(err.response.data.message)
+          this.notifyError()
         })
     }
   },

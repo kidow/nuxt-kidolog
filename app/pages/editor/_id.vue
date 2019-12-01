@@ -17,12 +17,20 @@
       <div class="header__right flex">
         <template v-if="$device.isMobile">
           <i class="fas fa-bars" @click="open = true"></i>
-          <vue-drawer-editor :open="open" @drawer="open = false" :submitText="submitText">
+          <vue-drawer-editor
+            :open="open"
+            @drawer="open = false"
+            :submitText="submitText"
+          >
             <div class="editor__drawer">
               <div class="menu-title">썸네일</div>
               <ul class="menu-list">
                 <li class="menu-item" v-if="thumbnail" style="width: 100%">
-                  <img :src="thumbnail" alt="thumbnail" style="height: 40px; width: 100%" />
+                  <img
+                    :src="thumbnail"
+                    alt="thumbnail"
+                    style="height: 40px; width: 100%"
+                  />
                 </li>
               </ul>
               <div class="menu-title">작업</div>
@@ -52,7 +60,9 @@
                   <li class="menu-item" @click="$emit('upload')">업로드</li>
                 </el-upload>
 
-                <li class="menu-item" @click="onSubmit" style="color: #e8590c">{{ submitText }}</li>
+                <li class="menu-item" @click="onSubmit" style="color: #e8590c">
+                  {{ submitText }}
+                </li>
               </ul>
               <div class="menu-title">창</div>
               <ul class="menu-list">
@@ -62,40 +72,29 @@
               <ul class="menu-list">
                 <el-tag
                   type="info"
-                  v-for="(extension,i ) in  extensions"
+                  v-for="(extension, i) in extensions"
                   :key="i"
                   style="margin: 0 4px 4px"
-                >{{ extension }}</el-tag>
+                  >{{ extension }}</el-tag
+                >
               </ul>
             </div>
           </vue-drawer-editor>
         </template>
         <template v-else>
-          <el-upload
-            :on-success="thumbnailUpload"
-            :before-upload="beforeUpload"
-            action="/prv/posts/thumbnail"
-            accept="image/*"
-            name="thumb"
-            :with-credentials="true"
-            :show-file-list="false"
-            :on-error="uploadError"
+          <el-button
+            plain
+            icon="el-icon-upload2"
+            @click="_ => imageUpload('thumbnail')"
+            >썸네일</el-button
           >
-            <el-button plain icon="el-icon-upload2">썸네일</el-button>
-          </el-upload>
           <div style="width: 0.5rem" />
-          <el-upload
-            :on-success="imageUpload"
-            :before-upload="beforeUpload"
-            action="/prv/posts/image"
-            accept="image/*"
-            name="image"
-            :with-credentials="true"
-            :show-file-list="false"
-            :on-error="uploadError"
+          <el-button
+            plain
+            icon="el-icon-picture"
+            @click="_ => imageUpload('image')"
+            >업로드</el-button
           >
-            <el-button plain icon="el-icon-picture">업로드</el-button>
-          </el-upload>
           <div style="width: 0.5rem" />
           <el-button
             @click="onSubmit"
@@ -103,22 +102,26 @@
             class="submit"
             type="primary"
             plain
-          >{{ submitText }}</el-button>
+            >{{ submitText }}</el-button
+          >
         </template>
       </div>
     </div>
     <div class="editor__content flex">
       <div class="content__flex flex display" :style="{ flex: leftPercentage }">
         <vue-markdown
-          @tagChange="tag => tags = tag"
+          @tagChange="tag => (tags = tag)"
           :tag="tags"
           :int="intro"
           :markdown="markdown"
-          @markdown="md => markdown = md"
-          @introChange="int => intro = int"
+          @markdown="md => (markdown = md)"
+          @introChange="int => (intro = int)"
         />
       </div>
-      <div class="content__flex flex none" :style="{ flex: 1 - leftPercentage}">
+      <div
+        class="content__flex flex none"
+        :style="{ flex: 1 - leftPercentage }"
+      >
         <vue-preview :title="title" :markdown="markdown" />
       </div>
       <div
@@ -128,7 +131,12 @@
       />
     </div>
     <transition name="el-zoom-in-bottom">
-      <vue-dialog v-show="visible" :visible="visible" @beforeClose="visible = false" :title="title">
+      <vue-dialog
+        v-show="visible"
+        :visible="visible"
+        @beforeClose="visible = false"
+        :title="title"
+      >
         <vue-marked :markdown="markdown" />
       </vue-dialog>
     </transition>
@@ -153,7 +161,8 @@ export default {
     intro: '',
     loading: false,
     open: false,
-    visible: false
+    visible: false,
+    uploadLoading: false
   }),
   methods: {
     onSeparatorMouseDown() {
@@ -167,37 +176,80 @@ export default {
       document.body.removeEventListener('mousemove', this.onMouseMove)
       window.removeEventListener('mouseup', this.onMouseUp)
     },
-    imageUpload({ image }) {
-      if (!image)
-        return this.notifyError(
-          '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
-        )
-      this.markdown += image
-    },
-    thumbnailUpload({ thumbnail }) {
-      if (!thumbnail)
-        return this.notifyError(
-          '죄송합니다. 현재 파일을 업로드할 수 없습니다. 나중에 다시 시도해주세요.'
-        )
-      this.thumbnail = thumbnail
-      this.$message({
-        message: '썸네일이 업로드되었습니다',
-        type: 'success',
-        showClose: true
-      })
-    },
-    uploadError(err) {
-      this.notifyError(JSON.parse(err.message).message)
-    },
-    beforeUpload(file) {
-      const isOver3M = file.size / 1024 / 1024 / 1024 > 3
-
-      if (isOver3M) {
-        this.notifyError('이미지의 용량이 3MB를 초과합니다.')
-        return false
+    imageUpload(folder) {
+      if (!this.isLoggedIn) return this.notifyInfo('로그인이 필요합니다.')
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = 'image/*'
+      const that = this
+      input.onchange = async () => {
+        if (!input.files) return
+        const file = input.files[0]
+        const isOver3M = file.size / 1024 / 1024 / 1024 > 3
+        if (isOver3M)
+          return that.notifyError('이미지의 용량이 3MB를 초과합니다.')
+        try {
+          const result = await this.fileUpload({ file, folder })
+          if (folder === 'thumbnail') that.thumbnail = result
+          else if (folder === 'image')
+            that.markdown += `![${folder}](${result})`
+          that.$message({
+            message: `${folder} 업로드 성공!`,
+            type: 'success',
+            showClose: true
+          })
+        } catch (err) {
+          console.log(err)
+          this.notifyError('Storage에 에러가 난 것 같네요.')
+        }
       }
+      input.click()
+    },
+    fileUpload({ file, folder }) {
+      this.uploadLoading = true
+      const metaData = { contentType: file.type }
+      const storageReg = this.$storage()
+        .ref()
+        .child(`${folder}/${Date.now().toString(36)}`)
+        .put(file, metaData)
+      const that = this
+      return new Promise((resolve, reject) => {
+        storageReg.on(
+          'state_changed',
+          snapshot => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log(`Upload is ${progress}% done`)
+            const loading = that.$loading({
+              lock: true,
+              text: `이미지 올리는 중... ${progress}%`,
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            })
+            if (progress === 100) loading.close()
 
-      return true
+            switch (snapshot.state) {
+              case that.$storage.TaskState.PAUSED:
+                console.log('Upload is paused')
+                break
+              case that.$storage.TaskState.RUNNING:
+                console.log('Upload is running')
+                break
+            }
+          },
+          err => reject(err),
+          async () => {
+            try {
+              const downloadURL = await storageReg.snapshot.ref.getDownloadURL()
+              resolve(downloadURL)
+            } catch (err) {
+              reject(err)
+            } finally {
+              that.uploadLoading = false
+            }
+          }
+        )
+      })
     },
     async onSubmit() {
       if (!this.title || !this.markdown) return
@@ -208,20 +260,32 @@ export default {
         content: this.markdown,
         thumbnail: this.thumbnail,
         tags: this.tags,
-        intro: this.intro
+        intro: this.intro,
+        createdAt: new Date()
       }
-      let url
-      let method
-      if (params.id) {
-        url = `/prv/posts/${params.id}`
-        method = 'put'
-      } else {
-        url = '/prv/posts'
-        method = 'post'
-      }
-      const options = { data, url, method }
+      // let url
+      // let method
+      // if (params.id) {
+      //   url = `/prv/posts/${params.id}`
+      //   method = 'put'
+      // } else {
+      //   url = '/prv/posts'
+      //   method = 'post'
+      // }
+      // const options = { data, url, method }
       try {
-        const { data } = await this.$axios(options)
+        // const { data } = await this.$axios(options)
+        let paramsId = ''
+        if (params.id) {
+          await this.$db
+            .collection('posts')
+            .doc(params.id)
+            .update(data)
+          paramsId = params.id
+        } else {
+          const { id } = await this.$db.collection('posts').add(data)
+          paramsId = id
+        }
         this.title = ''
         this.content = ''
         this.thumbnail = ''
@@ -229,11 +293,11 @@ export default {
         this.intro = ''
         const message = params.id ? '수정되었습니다' : '작성되었습니다'
         this.$message({ message, showClose: true, type: 'success' })
-        this.$router.push(`/post/${this.$titleUrl(data.title, data.postId)}`)
+        this.$router.push(`/post/${this.$titleUrl(this.title, paramsId)}`)
       } catch (err) {
         console.log(err)
         this.loading = false
-        this.notifyError(err.response.data.message)
+        this.notifyError()
       }
     },
     openPreview() {
@@ -273,16 +337,19 @@ export default {
   middleware: 'isLoggedIn',
   async asyncData({ params, app, store, redirect }) {
     if (!params.id) return
-    const user = store.getters['auth/GET_USER']
-    if (user.status !== 2) return redirect('/')
-    const options = {
-      url: `/posts/${params.id}`,
-      method: 'get'
-    }
+    // const user = store.getters['auth/GET_USER']
+    // if (user.status !== 2) return redirect('/')
+    // const options = {
+    //   url: `/posts/${params.id}`,
+    //   method: 'get'
+    // }
     try {
-      const {
-        data: { post }
-      } = await app.$axios(options)
+      // const {
+      //   data: { post }
+      // } = await app.$axios(options)
+      const docRef = await app.$db.collection('posts').doc(params.id)
+      const doc = await docRef.get()
+      const post = doc.data()
       if (!post.title) return redirect('/')
       return {
         title: post.title,
@@ -293,7 +360,7 @@ export default {
       }
     } catch (err) {
       console.log(err)
-      app.$sentry.captureException(err)
+      // app.$sentry.captureException(err)
     }
   },
   head() {

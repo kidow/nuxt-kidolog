@@ -10,6 +10,9 @@ export default {
   }),
   components: {
     VueError
+  },
+  async created() {
+    if (process.client) await this.$store.dispatch('auth/ME')
   }
 }
 </script>
